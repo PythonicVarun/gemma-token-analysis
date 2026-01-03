@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LLM LogProb Visualizer</title>
+        <style>
+            :root {
+                --primary: #2563eb;
+                --bg-body: #f8fafc;
+                --bg-card: #ffffff;
+                --text-main: #1e293b;
+                --text-muted: #64748b;
+                --border: #e2e8f0;
+                --token-hover: #dbeafe;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background-color: var(--bg-body);
+                color: var(--text-main);
+                padding: 2rem;
+                line-height: 1.6;
+            }
+
+            header {
+                max-width: 900px;
+                margin: 0 auto 2rem auto;
+                text-align: center;
+            }
+
+            h1 {
+                margin-bottom: 0.5rem;
+                letter-spacing: -0.025em;
+            }
+
+            /* Upload Button */
+            .upload-container {
+                margin-top: 1.5rem;
+            }
+            input[type="file"] {
+                display: none;
+            }
+            .custom-file-upload {
+                border: 1px solid var(--border);
+                padding: 0.75rem 1.5rem;
+                cursor: pointer;
+                background: var(--bg-card);
+                border-radius: 8px;
+                font-weight: 500;
+                color: var(--primary);
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                transition: all 0.2s;
+            }
+            .custom-file-upload:hover {
+                border-color: var(--primary);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Main Content */
+            #content {
+                max-width: 900px;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .entry-card {
+                background: var(--bg-card);
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                overflow: hidden;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            .card-header {
+                background: #f1f5f9;
+                padding: 0.75rem 1.5rem;
+                font-size: 0.75rem;
+                font-weight: 700;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .section {
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .section:last-child {
+                border-bottom: none;
+            }
+
+            .section-label {
+                display: block;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--text-muted);
+                margin-bottom: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .prompt-text {
+                font-family: "Menlo", monospace;
+                font-size: 0.9rem;
+                background: #f8fafc;
+                padding: 1rem;
+                border-radius: 6px;
+                border: 1px solid var(--border);
+                white-space: pre-wrap;
+                color: #334155;
+            }
+
+            /* Response Token Styling */
+            .response-container {
+                font-family: "Menlo", monospace;
+                font-size: 1rem;
+                line-height: 1.8;
+                color: #334155;
+            }
+
+            .token {
+                cursor: pointer;
+                border-radius: 2px;
+                transition: all 0.1s;
+                white-space: pre-wrap;
+                position: relative;
+                display: inline; /* Keep tokens inline */
+            }
+
+            /* Visual styling for the invisible characters */
+            .vis-symbol {
+                color: #cbd5e1;
+                user-select: none;
+                font-weight: normal;
+            }
+
+            /* Color Coding */
+            .token.high-prob {
+                border-bottom: 2px solid rgba(34, 197, 94, 0.4);
+            }
+            .token.med-prob {
+                border-bottom: 2px solid rgba(234, 179, 8, 0.4);
+            }
+            .token.low-prob {
+                border-bottom: 2px solid rgba(239, 68, 68, 0.4);
+            }
+
+            .token:hover {
+                background-color: var(--token-hover);
+                border-bottom-color: var(--primary);
+                z-index: 10;
+            }
+
+            .token:has(.vis-symbol) {
+                padding: 0 1px;
+            }
+
+            /* Tooltip */
+            #tooltip {
+                position: absolute;
+                background: #1e293b;
+                color: #fff;
+                border-radius: 8px;
+                font-size: 0.85rem;
+                pointer-events: none;
+                z-index: 1000;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+                display: none;
+                width: 300px;
+                overflow: hidden;
+            }
+
+            .tooltip-header {
+                background: #0f172a;
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid #334155;
+            }
+
+            .tooltip-token-preview {
+                font-family: monospace;
+                background: #334155;
+                padding: 2px 6px;
+                border-radius: 4px;
+                color: #e2e8f0;
+            }
+
+            .tooltip-body {
+                padding: 0.5rem 0;
+            }
+
+            .alt-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 6px 1rem;
+                border-bottom: 1px solid #334155;
+            }
+            .alt-row:last-child {
+                border-bottom: none;
+            }
+
+            .alt-row.selected {
+                background: rgba(37, 99, 235, 0.2);
+            }
+
+            .alt-token {
+                font-family: monospace;
+                background: #334155;
+                padding: 1px 5px;
+                border-radius: 3px;
+                max-width: 140px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: pre;
+            }
+
+            .empty-state {
+                text-align: center;
+                padding: 4rem;
+                color: var(--text-muted);
+                border: 2px dashed var(--border);
+                border-radius: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>LogProb Visualizer</h1>
+            <p style="color: var(--text-muted)">
+                Upload your .jsonl file to inspect tokens, probabilities, and invisible characters.
+            </p>
+
+            <div class="upload-container">
+                <label for="fileInput" class="custom-file-upload"> 📂 Upload JSONL </label>
+                <input type="file" id="fileInput" accept=".jsonl" />
+            </div>
+        </header>
+
+        <main id="content">
+            <div class="empty-state">Waiting for file upload...</div>
+        </main>
+
+        <div id="tooltip"></div>
+
+        <script>
+            const fileInput = document.getElementById("fileInput");
+            const contentDiv = document.getElementById("content");
+            const tooltip = document.getElementById("tooltip");
+
+            fileInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => processData(ev.target.result);
+                reader.readAsText(file);
+            });
+
+            function processData(text) {
+                contentDiv.innerHTML = "";
+                const lines = text.trim().split("\n");
+
+                if (lines.length === 0) {
+                    contentDiv.innerHTML = '<div class="empty-state">File is empty</div>';
+                    return;
+                }
+
+                lines.forEach((line, index) => {
+                    if (!line.trim()) return;
+                    try {
+                        const data = JSON.parse(line);
+                        contentDiv.appendChild(createCard(data, index));
+                    } catch (err) {
+                        console.error("Parse error on line", index, err);
+                    }
+                });
+            }
+
+            function createCard(data, index) {
+                const card = document.createElement("div");
+                card.className = "entry-card";
+
+                // Header
+                card.innerHTML = `<div class="card-header">Entry #${index + 1}</div>`;
+
+                // Prompt
+                const promptSec = document.createElement("div");
+                promptSec.className = "section";
+                promptSec.innerHTML = `
+                <label class="section-label">Prompt</label>
+                <div class="prompt-text">${escapeHtml(data.prompt)}</div>
+            `;
+                card.appendChild(promptSec);
+
+                // Response
+                const respSec = document.createElement("div");
+                respSec.className = "section";
+                respSec.innerHTML = `<label class="section-label">Response Analysis</label>`;
+
+                const container = document.createElement("div");
+                container.className = "response-container";
+
+                if (data.data && Array.isArray(data.data)) {
+                    data.data.forEach((tokenData) => {
+                        const span = document.createElement("span");
+                        span.className = `token ${getProbClass(tokenData.prob)}`;
+
+                        let safeText = escapeHtml(tokenData.token);
+
+                        // replace newlines with Symbol + Newline
+                        safeText = safeText.replace(/\n/g, '<span class="vis-symbol">↵</span>\n');
+
+                        // replace tabs with Symbol + Tab
+                        safeText = safeText.replace(/\t/g, '<span class="vis-symbol">→</span>\t');
+
+                        span.innerHTML = safeText;
+
+                        // Events
+                        span.addEventListener("mouseenter", (e) => showTooltip(e, tokenData));
+                        span.addEventListener("mouseleave", () => (tooltip.style.display = "none"));
+
+                        container.appendChild(span);
+                    });
+                } else {
+                    container.textContent = data.response;
+                }
+
+                respSec.appendChild(container);
+                card.appendChild(respSec);
+                return card;
+            }
+
+            function showTooltip(e, data) {
+                const rect = e.target.getBoundingClientRect();
+                const headerToken = escapeHtml(data.token).replace(/\n/g, "\\n").replace(/\t/g, "\\t");
+
+                let html = `
+                <div class="tooltip-header">
+                    <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">TOKEN</div>
+                    <span class="tooltip-token-preview">"${headerToken}"</span>
+                    <div style="margin-top:8px; display:flex; gap:12px; font-size:0.8rem; color:#cbd5e1;">
+                        <span>Prob: <b style="color:#fff">${data.prob.toFixed(2)}%</b></span>
+                        <span>LogProb: <b style="color:#fff">${data.logprob.toFixed(4)}</b></span>
+                    </div>
+                </div>
+                <div class="tooltip-body">
+            `;
+
+                const candidates = data.other_tokens || [];
+                if (candidates.length) {
+                    html += `<div style="padding:4px 1rem; color:#64748b; font-size:0.7rem; font-weight:bold; letter-spacing:0.05em;">TOP CANDIDATES</div>`;
+                    candidates.forEach((c) => {
+                        const isSelected = c.token === data.token;
+                        const cText = escapeHtml(c.token).replace(/\n/g, "\\n");
+
+                        html += `
+                        <div class="alt-row ${isSelected ? "selected" : ""}">
+                            <span class="alt-token">${cText}</span>
+                            <div style="text-align:right;">
+                                <div style="color:#e2e8f0; font-size:0.8rem;">${c.prob.toFixed(2)}%</div>
+                                <div style="color:#64748b; font-size:0.7rem;">${c.logprob.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    `;
+                    });
+                }
+
+                html += `</div>`;
+                tooltip.innerHTML = html;
+                tooltip.style.display = "block";
+
+                // Positioning
+                const tRect = tooltip.getBoundingClientRect();
+                let top = rect.bottom + window.scrollY + 5;
+                let left = rect.left + window.scrollX;
+
+                if (left + tRect.width > window.innerWidth) left = window.innerWidth - tRect.width - 20;
+                if (rect.bottom + tRect.height > window.innerHeight + window.scrollY) {
+                    top = rect.top + window.scrollY - tRect.height - 5;
+                }
+
+                tooltip.style.top = top + "px";
+                tooltip.style.left = left + "px";
+            }
+
+            function getProbClass(p) {
+                if (p > 80) return "high-prob";
+                if (p > 45) return "med-prob";
+                return "low-prob";
+            }
+
+            function escapeHtml(str) {
+                if (!str) return "";
+                return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            }
+        </script>
+    </body>
+</html>

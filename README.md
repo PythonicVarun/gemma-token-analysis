@@ -32,6 +32,10 @@ pip install -U torch transformers pandas accelerate bitsandbytes
    - Run the log probability analysis experiment.
    - Run the guided generation experiment.
 
+## Visualization
+
+You can visualize the generated JSONL data using the [Gemma Token Analysis Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/visualizer/).
+
 ## Requirements
 
 - Python 3.8+

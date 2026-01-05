@@ -1,5 +1,7 @@
 # Gemma Token Analysis
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PythonicVarun/gemma-token-analysis/blob/master/Logprobs_in_Gemma.ipynb)
+
 This repository explores the internal stochastic nature of Gemma models. By extracting transition scores and logits from the Hugging Face `transformers` generation loop, we can analyze the model's confidence levels and visualize "competing" tokens at each step of the sequence.
 
 ## Features

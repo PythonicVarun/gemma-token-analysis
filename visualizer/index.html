@@ -13,6 +13,10 @@
                 --text-muted: #64748b;
                 --border: #e2e8f0;
                 --token-hover: #dbeafe;
+                --err-bg: #fef2f2;
+                --err-border: #fca5a5;
+                --err-text: #b91c1c;
+                --err-header: #fee2e2;
             }
 
             * {
@@ -44,23 +48,47 @@
                 letter-spacing: -0.025em;
             }
 
-            /* Upload Button */
+            /* Upload / Drop Zone */
             .upload-container {
                 margin-top: 1.5rem;
+                border: 2px dashed var(--border);
+                border-radius: 12px;
+                padding: 2rem;
+                background: var(--bg-card);
+                transition: all 0.2s ease;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
             }
+
+            .upload-container.drag-over {
+                border-color: var(--primary);
+                background-color: #eff6ff;
+                transform: scale(1.01);
+            }
+
+            .upload-hint {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+            }
+
             input[type="file"] {
                 display: none;
             }
+
             .custom-file-upload {
                 border: 1px solid var(--border);
-                padding: 0.75rem 1.5rem;
+                padding: 0.6rem 1.2rem;
                 cursor: pointer;
-                background: var(--bg-card);
-                border-radius: 8px;
+                background: #fff;
+                border-radius: 6px;
                 font-weight: 500;
                 color: var(--primary);
                 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
                 transition: all 0.2s;
+                font-size: 0.9rem;
             }
             .custom-file-upload:hover {
                 border-color: var(--primary);
@@ -82,6 +110,25 @@
                 border: 1px solid var(--border);
                 overflow: hidden;
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            /* Error Card Styling */
+            .entry-card.error {
+                border-color: var(--err-border);
+                background-color: var(--err-bg);
+            }
+            
+            .entry-card.error .card-header {
+                background-color: var(--err-header);
+                color: var(--err-text);
+                border-bottom-color: var(--err-border);
+            }
+
+            .error-body {
+                padding: 1.5rem;
+                color: var(--err-text);
+                font-family: monospace;
+                font-size: 0.9rem;
             }
 
             .card-header {
@@ -239,11 +286,13 @@
         <header>
             <h1>LogProb Visualizer</h1>
             <p style="color: var(--text-muted)">
-                Upload your .jsonl file to inspect tokens, probabilities, and invisible characters.
+                Inspect tokens and probabilities.
             </p>
 
-            <div class="upload-container">
-                <label for="fileInput" class="custom-file-upload"> 📂 Upload JSONL </label>
+            <div class="upload-container" id="dropZone">
+                <span class="upload-hint">Drag & Drop your .jsonl file here</span>
+                <span style="font-size: 0.8rem; color: #94a3b8">OR</span>
+                <label for="fileInput" class="custom-file-upload"> Browse Files </label>
                 <input type="file" id="fileInput" accept=".jsonl" />
             </div>
         </header>
@@ -256,16 +305,70 @@
 
         <script>
             const fileInput = document.getElementById("fileInput");
+            const dropZone = document.getElementById("dropZone");
             const contentDiv = document.getElementById("content");
             const tooltip = document.getElementById("tooltip");
 
+            // Click to upload
             fileInput.addEventListener("change", (e) => {
                 const file = e.target.files[0];
+                handleFile(file);
+            });
+
+            // Drag & Drop
+            ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+                document.body.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Highlight drop zone
+            ;['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+
+            // Unhighlight drop zone
+            ;['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropZone.classList.add('drag-over');
+            }
+
+            function unhighlight() {
+                dropZone.classList.remove('drag-over');
+            }
+
+            // Handle Drop
+            dropZone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFile(files[0]);
+            });
+
+            function handleFile(file) {
                 if (!file) return;
+
+                // Reset UI
+                contentDiv.innerHTML = '<div class="empty-state">Processing...</div>';
+                
                 const reader = new FileReader();
                 reader.onload = (ev) => processData(ev.target.result);
+                reader.onerror = () => {
+                    contentDiv.innerHTML = `
+                        <div class="entry-card error" style="text-align:center; padding: 2rem;">
+                             <div style="font-weight:bold; font-size:1.2rem; margin-bottom:0.5rem">File Read Error</div>
+                             <div>Could not read the file. Please try again.</div>
+                        </div>
+                    `;
+                };
                 reader.readAsText(file);
-            });
+            }
 
             function processData(text) {
                 contentDiv.innerHTML = "";
@@ -283,8 +386,25 @@
                         contentDiv.appendChild(createCard(data, index));
                     } catch (err) {
                         console.error("Parse error on line", index, err);
+                        contentDiv.appendChild(createErrorCard(line, index, err));
                     }
                 });
+            }
+
+            function createErrorCard(lineContent, index, error) {
+                const card = document.createElement("div");
+                card.className = "entry-card error";
+
+                card.innerHTML = `
+                    <div class="card-header">Entry #${index + 1} - Parse Error</div>
+                    <div class="error-body">
+                        <div style="font-weight:bold; margin-bottom:0.5rem;">${escapeHtml(error.message)}</div>
+                        <div style="opacity:0.8; word-break:break-all; background:rgba(255,255,255,0.5); padding:0.5rem; border-radius:4px;">
+                            ${escapeHtml(lineContent.substring(0, 300))}${lineContent.length > 300 ? '...' : ''}
+                        </div>
+                    </div>
+                `;
+                return card;
             }
 
             function createCard(data, index) {

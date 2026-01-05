@@ -11,7 +11,7 @@ This repository explores the internal stochastic nature of Gemma models. By extr
 
 ## Repository Structure
 
-- `Logprobs_in_Gemma3.ipynb`: The main Jupyter Notebook containing the analysis code, helper functions, and experiments.
+- `Logprobs_in_Gemma.ipynb`: The main Jupyter Notebook containing the analysis code, helper functions, and experiments.
 
 ## Installation
 
@@ -24,7 +24,7 @@ pip install -U torch transformers pandas accelerate bitsandbytes
 
 ## Usage
 
-1. Open `Logprobs_in_Gemma3.ipynb` in VS Code or Jupyter Lab.
+1. Open `Logprobs_in_Gemma.ipynb` in VS Code or Jupyter Lab.
 2. Ensure you have a Hugging Face account and an access token.
 3. Run the notebook cells to:
    - Authenticate with Hugging Face.

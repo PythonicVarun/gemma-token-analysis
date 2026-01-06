@@ -253,6 +253,10 @@
             {
                 prompt: "To sort the list of numbers efficiently, the best algorithm to use is",
                 file: "sort_algorithm_tree.json"
+            },
+            {
+                prompt: "She looked at the scales and saw",
+                file: "scales_reading_tree.json"
             }
         ];
 
@@ -270,7 +274,7 @@
             const card = document.createElement('a');
             card.className = 'card';
             card.style.animationDelay = `${index * 0.1}s`;
-            card.href = `visualizer/index.html?file=../sample_outputs/${sample.file}`;
+            card.href = `response-visualizer?file=../sample_outputs/${sample.file}`;
             
             const icon = document.createElement('div');
             icon.className = 'card-icon';

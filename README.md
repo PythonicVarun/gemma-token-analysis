@@ -43,9 +43,11 @@ pip install -U torch transformers pandas accelerate numpy huggingface-hub
 
 ## Visualization
 
-You can visualize the generated JSONL data using the [Gemma Token Analysis Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/logprobs-visualizer/).
+- You can visualize the generated JSONL data using the [Gemma Token Analysis Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/logprobs-visualizer/).
 
-For analyzing token generation trees, use the [Token Tree Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/token_tree_analysis/).
+- For analyzing token generation trees, use the [Token Tree Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/token_tree_analysis/).
+  - **Response Visualizer**: Click any token to see alternatives and regenerate sequences
+  - **Tree Visualizer**: Interactive D3.js visualization of token generation paths
 
 ## Requirements
 

@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Probability Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --bg-card-border: rgba(71, 85, 105, 0.3);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #a855f7;
+            --accent-green: #22c55e;
+            
+            --prob-high-bg: rgba(34, 197, 94, 0.2);
+            --prob-high-border: rgba(34, 197, 94, 0.5);
+            --prob-high-text: #86efac;
+            
+            --prob-med-bg: rgba(234, 179, 8, 0.2);
+            --prob-med-border: rgba(234, 179, 8, 0.5);
+            --prob-med-text: #fde047;
+            
+            --prob-low-bg: rgba(239, 68, 68, 0.2);
+            --prob-low-border: rgba(239, 68, 68, 0.5);
+            --prob-low-text: #fca5a5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--bg-card-border);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        .prompt-display {
+            background: rgba(34, 211, 238, 0.08);
+            padding: 14px 18px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-cyan);
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .sentence-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: flex-start;
+            line-height: 2.4;
+            padding: 8px 0;
+        }
+
+        .token-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .token {
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid transparent;
+            white-space: pre;
+            height: 32px;
+        }
+
+        .token:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .token.active {
+            outline: 2px solid rgba(255, 255, 255, 0.6);
+            outline-offset: 2px;
+            transform: translateY(-2px);
+        }
+
+        .token[data-prob-level="high"] {
+            background: var(--prob-high-bg);
+            border-color: var(--prob-high-border);
+            color: var(--prob-high-text);
+        }
+
+        .token[data-prob-level="med"] {
+            background: var(--prob-med-bg);
+            border-color: var(--prob-med-border);
+            color: var(--prob-med-text);
+        }
+
+        .token[data-prob-level="low"] {
+            background: var(--prob-low-bg);
+            border-color: var(--prob-low-border);
+            color: var(--prob-low-text);
+        }
+
+        .token::after {
+            content: attr(data-prob);
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .token:hover::after {
+            opacity: 1;
+        }
+
+        /* Special character styling */
+        .special-char {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.15);
+            opacity: 0.9;
+        }
+
+        .line-break-indicator {
+            display: flex;
+            width: 100%;
+            height: 0;
+            flex-basis: 100%;
+        }
+
+        .candidates-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 12px;
+            min-width: 240px;
+            max-height: 320px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .candidates-dropdown.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(6px);
+        }
+
+        .candidates-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid #1e293b;
+        }
+
+        .dropdown-title {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .candidate-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-bottom: 4px;
+            gap: 12px;
+        }
+
+        .candidate-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .candidate-item.selected {
+            background: rgba(34, 211, 238, 0.15);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+        }
+
+        .candidate-text {
+            font-weight: 500;
+            color: var(--text-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            flex-wrap: wrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .candidate-text .special-char {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--text-secondary);
+        }
+
+        .candidate-prob {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .candidate-prob[data-prob-level="high"] {
+            background: var(--prob-high-bg);
+            color: var(--prob-high-text);
+        }
+
+        .candidate-prob[data-prob-level="med"] {
+            background: var(--prob-med-bg);
+            color: var(--prob-med-text);
+        }
+
+        .candidate-prob[data-prob-level="low"] {
+            background: var(--prob-low-bg);
+            color: var(--prob-low-text);
+        }
+
+        .prob-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .prob-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .prob-bar-fill[data-prob-level="high"] { background: var(--prob-high-text); }
+        .prob-bar-fill[data-prob-level="med"] { background: var(--prob-med-text); }
+        .prob-bar-fill[data-prob-level="low"] { background: var(--prob-low-text); }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-color.high { 
+            background: var(--prob-high-bg);
+            border: 1px solid var(--prob-high-border);
+        }
+        .legend-color.med { 
+            background: var(--prob-med-bg);
+            border: 1px solid var(--prob-med-border);
+        }
+        .legend-color.low { 
+            background: var(--prob-low-bg);
+            border: 1px solid var(--prob-low-border);
+        }
+
+        .legend-section {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .legend-section-title {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .special-chars-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .special-chars-legend .legend-item .special-char {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .metadata-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .metadata-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metadata-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+        }
+
+        .instructions {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+        }
+
+        .instructions span {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* File Upload Styles */
+        .upload-area {
+            border: 2px dashed rgba(148, 163, 184, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover,
+        .upload-area.drag-over {
+            border-color: var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtext {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .upload-subtext span {
+            color: var(--accent-cyan);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding: 14px 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .uploaded-file.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .file-icon {
+            font-size: 1.4rem;
+        }
+
+        .file-info {
+            text-align: left;
+        }
+
+        .file-name {
+            color: var(--prob-high-text);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .uploaded-file.error .file-name {
+            color: var(--prob-low-text);
+        }
+
+        .file-size {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .remove-file {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .remove-file:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .error-message {
+            color: var(--prob-low-text);
+            margin-top: 15px;
+            padding: 14px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .error-message strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .sample-data-btn {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border: none;
+            color: var(--bg-dark);
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .sample-data-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: var(--text-muted);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .divider span {
+            padding: 0 16px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Scrollbar styling */
+        .candidates-dropdown::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .candidates-dropdown::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .candidates-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .visualization-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .visualization-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .success-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent-green), #16a34a);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+            z-index: 2000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .success-toast.show {
+            transform: translateX(0);
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .action-btn.primary {
+            background: rgba(34, 211, 238, 0.15);
+            border-color: rgba(34, 211, 238, 0.3);
+            color: var(--accent-cyan);
+        }
+
+        .action-btn.primary:hover {
+            background: rgba(34, 211, 238, 0.25);
+        }
+
+        /* Toggle for showing/hiding whitespace */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .toggle-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active::after {
+            left: 23px;
+        }
+
+        /* Raw text display */
+        .raw-text-container {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-word;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            line-height: 1.6;
+        }
+
+        .raw-text-label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-bottom: 12px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .raw-prompt {
+            color: var(--accent-cyan);
+        }
+
+        .raw-generated {
+            white-space: pre-wrap;
+            color: var(--text-primary);
+        }
+
+        .raw-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--accent-purple);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Token Probability Visualizer</h1>
+        <p class="subtitle">Explore language model predictions interactively</p>
+
+        <!-- Upload Section -->
+        <div class="card" id="uploadCard">
+            <div class="card-title">📂 Load Data</div>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Drag & drop your JSON file here</div>
+                <div class="upload-subtext">or <span id="browseBtn">browse</span> to select a file</div>
+                <input type="file" class="file-input" id="fileInput" accept=".json,application/json">
+            </div>
+            
+            <div id="uploadedFileInfo" class="hidden"></div>
+            <div id="errorMessage" class="hidden"></div>
+            
+            <div class="divider"><span>or</span></div>
+            
+            <div style="text-align: center;">
+                <button class="sample-data-btn" id="loadSampleBtn">
+                    🎯 Load Sample Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="header-actions hidden" id="headerActions">
+            <button class="action-btn primary" id="uploadNewBtn">
+                📂 Upload New File
+            </button>
+            <button class="action-btn" id="resetBtn">
+                🔄 Reset to Original
+            </button>
+            <button class="action-btn" id="downloadBtn">
+                💾 Download Path
+            </button>
+        </div>
+
+        <!-- Visualization Section -->
+        <div class="visualization-section" id="visualizationSection">
+            <div class="card">
+                <div class="card-title">📝 Initial Prompt</div>
+                <div class="prompt-display" id="promptDisplay"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔮 Generated Sequence</div>
+                <div class="sentence-container" id="sentenceContainer"></div>
+                
+                <div class="toggle-container">
+                    <span class="toggle-label">Show whitespace</span>
+                    <div class="toggle-switch active" id="whitespaceToggle"></div>
+                </div>
+
+                <div class="raw-text-container" id="rawTextContainer">
+                    <span class="raw-text-label">Complete Output</span>
+                    <span class="raw-prompt" id="rawPrompt"></span><span class="raw-generated" id="rawGenerated"></span><span class="raw-cursor"></span>
+                </div>
+
+                <div class="instructions">
+                    <span>Click</span> on any token to see alternatives • 
+                    <span>Select</span> a candidate to regenerate
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color high"></div>
+                        <span>High (&gt;70%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color med"></div>
+                        <span>Medium (30-70%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color low"></div>
+                        <span>Low (&lt;30%)</span>
+                    </div>
+                </div>
+                
+                <div class="legend-section">
+                    <div class="legend-section-title">Special Characters</div>
+                    <div class="special-chars-legend">
+                        <div class="legend-item">
+                            <span class="special-char">↵</span>
+                            <span>Newline</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="special-char">⇥</span>
+                            <span>Tab</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="special-char">CR</span>
+                            <span>Return</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="special-char">·</span>
+                            <span>Space</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⚙️ Parameters</div>
+                <div class="metadata-grid" id="metadataGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast">✓ File loaded successfully!</div>
+
+    <script>
+        const sample_data_file = "../sample_outputs/scales_reading_tree.json";
+
+        let data = null;
+        let originalPath = [];
+        let currentPath = [];
+        let activeTokenIndex = null;
+        let currentFileName = '';
+        let showWhitespace = true;
+
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const browseBtn = document.getElementById('browseBtn');
+        const uploadedFileInfo = document.getElementById('uploadedFileInfo');
+        const errorMessage = document.getElementById('errorMessage');
+        const loadSampleBtn = document.getElementById('loadSampleBtn');
+        const uploadCard = document.getElementById('uploadCard');
+        const headerActions = document.getElementById('headerActions');
+        const visualizationSection = document.getElementById('visualizationSection');
+        const successToast = document.getElementById('successToast');
+        const uploadNewBtn = document.getElementById('uploadNewBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const whitespaceToggle = document.getElementById('whitespaceToggle');
+
+        // Whitespace toggle
+        whitespaceToggle.addEventListener('click', () => {
+            showWhitespace = !showWhitespace;
+            whitespaceToggle.classList.toggle('active', showWhitespace);
+            renderSentence();
+        });
+
+        // File Upload Event Listeners
+        browseBtn.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target === uploadArea || e.target.classList.contains('upload-icon') || 
+                e.target.classList.contains('upload-text')) {
+                fileInput.click();
+            }
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        loadSampleBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch(sample_data_file);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const jsonData = await response.json();
+                const errors = validateSchema(jsonData);
+
+                if (errors.length > 0) {
+                    showError('Schema Validation Failed', errors.join(' • '));
+                    return;
+                }
+
+                const fileName = sample_data_file.split('/').pop();
+
+                showUploadedFile({ name: fileName, size: 0 }, false);
+                loadData(jsonData, fileName);
+            } catch (err) {
+                showError('Load Failed', `Could not load file from URL. ${err.message}`);
+            }
+        });
+
+        uploadNewBtn.addEventListener('click', () => {
+            showUploadSection();
+        });
+
+        resetBtn.addEventListener('click', () => {
+            currentPath = JSON.parse(JSON.stringify(originalPath));
+            renderSentence();
+            showToast('Reset to original path');
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            downloadCurrentPath();
+        });
+
+        function handleFile(file) {
+            hideError();
+            
+            if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+                showError('Invalid file type', 'Please upload a JSON file.');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                showError('File too large', 'Maximum file size is 10MB.');
+                return;
+            }
+
+            currentFileName = file.name;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    validateAndLoadData(jsonData, file);
+                } catch (err) {
+                    showError('Invalid JSON', 'The file contains invalid JSON.');
+                    showUploadedFile(file, true);
+                }
+            };
+
+            reader.onerror = () => {
+                showError('Read Error', 'Failed to read the file.');
+            };
+
+            reader.readAsText(file);
+        }
+
+        function validateAndLoadData(jsonData, file) {
+            const errors = validateSchema(jsonData);
+            
+            if (errors.length > 0) {
+                showError('Schema Validation Failed', errors.join(' • '));
+                showUploadedFile(file, true);
+                return;
+            }
+
+            showUploadedFile(file, false);
+            loadData(jsonData, file.name);
+        }
+
+        function validateSchema(data) {
+            const errors = [];
+
+            if (!data.metadata) {
+                errors.push('Missing "metadata"');
+            } else {
+                if (!data.metadata.prompt) errors.push('Missing "metadata.prompt"');
+                if (!data.metadata.parameters) errors.push('Missing "metadata.parameters"');
+            }
+
+            if (!data.tree) {
+                errors.push('Missing "tree"');
+            } else {
+                if (typeof data.tree.prob !== 'number') errors.push('Invalid "tree.prob"');
+                if (!Array.isArray(data.tree.candidates)) errors.push('Missing "tree.candidates"');
+                if (!Array.isArray(data.tree.children)) errors.push('Missing "tree.children"');
+            }
+
+            return errors;
+        }
+
+        function showUploadedFile(file, isError) {
+            const sizeKB = (file.size / 1024).toFixed(1);
+            uploadedFileInfo.className = isError ? 'uploaded-file error' : 'uploaded-file';
+            uploadedFileInfo.innerHTML = `
+                <span class="file-icon">${isError ? '⚠️' : '📄'}</span>
+                <div class="file-info">
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${sizeKB} KB</div>
+                </div>
+                <button class="remove-file" onclick="clearUpload()">×</button>
+            `;
+            uploadedFileInfo.classList.remove('hidden');
+        }
+
+        function clearUpload() {
+            fileInput.value = '';
+            uploadedFileInfo.classList.add('hidden');
+            hideError();
+            currentFileName = '';
+        }
+
+        function showError(title, message) {
+            errorMessage.innerHTML = `<strong>❌ ${title}</strong>${message}`;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMessage.classList.add('hidden');
+        }
+
+        function showToast(message) {
+            successToast.textContent = '✓ ' + message;
+            successToast.classList.add('show');
+            setTimeout(() => {
+                successToast.classList.remove('show');
+            }, 3000);
+        }
+
+        function showUploadSection() {
+            uploadCard.classList.remove('hidden');
+            headerActions.classList.add('hidden');
+            visualizationSection.classList.remove('visible');
+            clearUpload();
+        }
+
+        function getProbLevel(prob) {
+            if (prob >= 0.7) return 'high';
+            if (prob >= 0.3) return 'med';
+            return 'low';
+        }
+
+        // Format text to show special characters
+        function formatTextForDisplay(text, showSpecialChars = true) {
+            if (!showSpecialChars) {
+                return escapeHtml(text);
+            }
+
+            let result = '';
+            let i = 0;
+            
+            while (i < text.length) {
+                const char = text[i];
+                
+                if (char === '\n') {
+                    result += '<span class="special-char">↵</span>';
+                } else if (char === '\t') {
+                    result += '<span class="special-char">⇥</span>';
+                } else if (char === '\r') {
+                    result += '<span class="special-char">CR</span>';
+                } else if (char === ' ') {
+                    const isLeading = i === 0 || text[i-1] === '\n' || text[i-1] === '\t';
+                    const isTrailing = i === text.length - 1 || text[i+1] === '\n' || text[i+1] === '\t';
+                    
+                    if (isLeading || isTrailing) {
+                        result += '<span class="special-char">·</span>';
+                    } else {
+                        result += ' ';
+                    }
+                } else {
+                    result += escapeHtml(char);
+                }
+                i++;
+            }
+            
+            return result;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function isOnlyWhitespace(text) {
+            return /^[\s\n\r\t]*$/.test(text);
+        }
+
+        function buildInitialPath(node, path = []) {
+            if (node.text) {
+                path.push({
+                    text: node.text,
+                    prob: node.prob,
+                    token_id: node.token_id,
+                    candidates: node.candidates,
+                    node: node
+                });
+            }
+            
+            if (node.children && node.children.length > 0) {
+                const bestChild = node.children.reduce((a, b) => a.prob > b.prob ? a : b);
+                buildInitialPath(bestChild, path);
+            }
+            
+            return path;
+        }
+
+        function findHighestProbPath(node) {
+            const path = [];
+            let current = node;
+            
+            while (current.children && current.children.length > 0) {
+                const bestChild = current.children.reduce((a, b) => a.prob > b.prob ? a : b);
+                path.push({
+                    text: bestChild.text,
+                    prob: bestChild.prob,
+                    token_id: bestChild.token_id,
+                    candidates: bestChild.candidates,
+                    node: bestChild
+                });
+                current = bestChild;
+            }
+            
+            return path;
+        }
+
+        function renderSentence() {
+            const container = document.getElementById('sentenceContainer');
+            container.innerHTML = '';
+            
+            // Update raw text display with prompt + generated
+            const generatedText = currentPath.map(t => t.text).join('');
+            document.getElementById('rawPrompt').textContent = data.metadata.prompt;
+            document.getElementById('rawGenerated').textContent = generatedText.replace(data.metadata.prompt, "");
+            
+            currentPath.forEach((token, index) => {
+                const isPromptText = index === 0 && data.metadata.prompt.startsWith(token.text);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'token-wrapper';
+                
+                const tokenEl = document.createElement('span');
+                const probLevel = getProbLevel(token.prob);
+                tokenEl.className = 'token fade-in';
+                tokenEl.setAttribute('data-prob-level', probLevel);
+                tokenEl.style.animationDelay = `${index * 0.04}s`;
+                tokenEl.innerHTML = formatTextForDisplay(token.text, showWhitespace);
+                tokenEl.dataset.prob = isPromptText ? 'Initial Prompt' : `${(token.prob * 100).toFixed(1)}%`;
+                tokenEl.dataset.index = index;
+
+                if (!isPromptText)
+                    tokenEl.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleDropdown(index, wrapper);
+                    });
+
+                wrapper.appendChild(tokenEl);
+                container.appendChild(wrapper);
+                
+                if (token.text.includes('\n') && index < currentPath.length - 1) {
+                    const lineBreak = document.createElement('div');
+                    lineBreak.className = 'line-break-indicator';
+                    container.appendChild(lineBreak);
+                }
+            });
+        }
+
+        function toggleDropdown(index, wrapper) {
+            document.querySelectorAll('.candidates-dropdown').forEach(d => d.remove());
+            document.querySelectorAll('.token').forEach(t => t.classList.remove('active'));
+            
+            if (activeTokenIndex === index) {
+                activeTokenIndex = null;
+                return;
+            }
+            
+            activeTokenIndex = index;
+            const token = currentPath[index];
+            const tokenEl = wrapper.querySelector('.token');
+            tokenEl.classList.add('active');
+            
+            let candidates = [];
+            if (index === 0) {
+                candidates = data.tree.candidates;
+            } else {
+                const parentNode = currentPath[index - 1].node;
+                if (parentNode && parentNode.candidates) {
+                    candidates = parentNode.candidates;
+                }
+            }
+            
+            if (candidates.length === 0) {
+                candidates = token.candidates || [];
+            }
+            
+            if (candidates.length === 0) return;
+            
+            const dropdown = document.createElement('div');
+            dropdown.className = 'candidates-dropdown';
+            
+            const title = document.createElement('div');
+            title.className = 'dropdown-title';
+            title.textContent = `${candidates.length} alternatives`;
+            dropdown.appendChild(title);
+            
+            candidates.sort((a, b) => b.prob - a.prob).forEach(candidate => {
+                const item = document.createElement('div');
+                item.className = 'candidate-item';
+                if (candidate.token_id === token.token_id) {
+                    item.classList.add('selected');
+                }
+                
+                const probLevel = getProbLevel(candidate.prob);
+                
+                const textSpan = document.createElement('span');
+                textSpan.className = 'candidate-text';
+                textSpan.innerHTML = formatTextForDisplay(candidate.text, showWhitespace);
+                
+                const probSpan = document.createElement('span');
+                probSpan.className = 'candidate-prob';
+                probSpan.setAttribute('data-prob-level', probLevel);
+                probSpan.textContent = `${(candidate.prob * 100).toFixed(1)}%`;
+                
+                item.appendChild(textSpan);
+                item.appendChild(probSpan);
+                
+                const probBar = document.createElement('div');
+                probBar.className = 'prob-bar';
+                const probFill = document.createElement('div');
+                probFill.className = 'prob-bar-fill';
+                probFill.setAttribute('data-prob-level', probLevel);
+                probFill.style.width = `${candidate.prob * 100}%`;
+                probBar.appendChild(probFill);
+                item.appendChild(probBar);
+                
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectCandidate(index, candidate);
+                });
+                
+                dropdown.appendChild(item);
+            });
+            
+            wrapper.appendChild(dropdown);
+            
+            requestAnimationFrame(() => {
+                dropdown.classList.add('visible');
+            });
+        }
+
+        function selectCandidate(index, candidate) {
+            let parentNode;
+            if (index === 0) {
+                parentNode = data.tree;
+            } else {
+                parentNode = currentPath[index - 1].node;
+            }
+            
+            let selectedNode = null;
+            for (const child of parentNode.children || []) {
+                if (child.token_id === candidate.token_id) {
+                    selectedNode = child;
+                    break;
+                }
+            }
+            
+            currentPath = currentPath.slice(0, index);
+            
+            if (selectedNode) {
+                currentPath.push({
+                    text: selectedNode.text,
+                    prob: selectedNode.prob,
+                    token_id: selectedNode.token_id,
+                    candidates: selectedNode.candidates,
+                    node: selectedNode
+                });
+                
+                const continuation = findHighestProbPath(selectedNode);
+                currentPath = currentPath.concat(continuation);
+            } else {
+                currentPath.push({
+                    text: candidate.text,
+                    prob: candidate.prob,
+                    token_id: candidate.token_id,
+                    candidates: [],
+                    node: { text: candidate.text, prob: candidate.prob, token_id: candidate.token_id, children: [], candidates: [] }
+                });
+            }
+            
+            activeTokenIndex = null;
+            renderSentence();
+        }
+
+        function renderMetadata() {
+            const grid = document.getElementById('metadataGrid');
+            const params = data.metadata.parameters;
+            
+            grid.innerHTML = `
+                <div class="metadata-item">
+                    <div class="metadata-value">${params.branching_threshold}</div>
+                    <div class="metadata-label">Branching</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${params.candidate_threshold}</div>
+                    <div class="metadata-label">Candidate</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${params.max_depth}</div>
+                    <div class="metadata-label">Max Depth</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${params.max_completed_paths}</div>
+                    <div class="metadata-label">Max Paths</div>
+                </div>
+            `;
+        }
+
+        function downloadCurrentPath() {
+            const pathData = {
+                prompt: data.metadata.prompt,
+                generated_text: currentPath.map(t => t.text).join(''),
+                full_output: data.metadata.prompt + currentPath.map(t => t.text).join(''),
+                tokens: currentPath.map(t => ({
+                    text: t.text,
+                    prob: t.prob,
+                    token_id: t.token_id
+                }))
+            };
+            
+            const blob = new Blob([JSON.stringify(pathData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'generated-path.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Path downloaded!');
+        }
+
+        function loadData(jsonData, fileName) {
+            data = jsonData;
+            currentFileName = fileName;
+            
+            document.getElementById('promptDisplay').textContent = data.metadata.prompt;
+            currentPath = buildInitialPath(data.tree);
+            originalPath = JSON.parse(JSON.stringify(currentPath));
+            
+            renderSentence();
+            renderMetadata();
+            
+            uploadCard.classList.add('hidden');
+            headerActions.classList.remove('hidden');
+            
+            setTimeout(() => {
+                visualizationSection.classList.add('visible');
+            }, 100);
+            
+            showToast(`Loaded: ${fileName}`);
+        }
+
+        // Auto-load data from URL parameter
+        async function loadFromUrlParam() {
+            const params = new URLSearchParams(window.location.search);
+            const fileParam = params.get('file');
+
+            if (!fileParam) return;
+
+            try {
+                const fileUrl = new URL(fileParam, window.location.href);
+                const response = await fetch(fileUrl);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const jsonData = await response.json();
+                const errors = validateSchema(jsonData);
+
+                if (errors.length > 0) {
+                    showError('Schema Validation Failed', errors.join(' • '));
+                    return;
+                }
+
+                const fileName = decodeURIComponent(fileUrl.pathname.split('/').pop() || 'remote.json');
+                showUploadedFile({ name: fileName, size: 0 }, false);
+                loadData(jsonData, fileName);
+            } catch (err) {
+                showError('Load Failed', `Could not load file from URL. ${err.message}`);
+            }
+        }
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.candidates-dropdown').forEach(d => d.remove());
+            document.querySelectorAll('.token').forEach(t => t.classList.remove('active'));
+            activeTokenIndex = null;
+        });
+
+        window.clearUpload = clearUpload;
+
+        // Trigger URL-based loading on initial render
+        loadFromUrlParam();
+    </script>
+</body>
+</html>

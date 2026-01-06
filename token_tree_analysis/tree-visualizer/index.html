@@ -310,6 +310,56 @@
             line-height: 1.6;
         }
 
+        /* PARAMETERS BOX STYLES */
+        .params-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-secondary);
+            padding: 16px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-bottom: 16px;
+        }
+
+        .params-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--accent-secondary);
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .params-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .param-item {
+            background: var(--bg-secondary);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .param-name {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .param-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+
         /* Empty State */
         #empty-state {
             text-align: center;
@@ -634,6 +684,28 @@
             <div id="prompt-text" class="prompt-content"></div>
         </div>
 
+        <div id="params-container" class="params-box" style="display:none;">
+            <div class="params-label">⚙️ Generation Parameters</div>
+            <div class="params-grid">
+                <div class="param-item">
+                    <div class="param-name">Branching Threshold</div>
+                    <div class="param-value" id="param-branching"></div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">Candidate Threshold</div>
+                    <div class="param-value" id="param-candidate"></div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">Max Depth</div>
+                    <div class="param-value" id="param-max-depth"></div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">Max Completed Paths</div>
+                    <div class="param-value" id="param-max-paths"></div>
+                </div>
+            </div>
+        </div>
+
         <div id="instruction" style="display:none;">
             <span class="icon">👆</span>
             <span>Hover over a node to explore the token sequence and alternatives</span>
@@ -734,6 +806,23 @@
             } else {
                 currentPrompt = "";
                 promptContainer.style.display = "none";
+            }
+
+            // Handle Parameters Display
+            const paramsContainer = document.getElementById("params-container");
+            if (data.metadata && data.metadata.parameters) {
+                const params = data.metadata.parameters;
+                document.getElementById("param-branching").innerText = 
+                    params.branching_threshold !== undefined ? params.branching_threshold.toFixed(3) : "N/A";
+                document.getElementById("param-candidate").innerText = 
+                    params.candidate_threshold !== undefined ? params.candidate_threshold.toFixed(3) : "N/A";
+                document.getElementById("param-max-depth").innerText = 
+                    params.max_depth !== undefined ? params.max_depth : "N/A";
+                document.getElementById("param-max-paths").innerText = 
+                    params.max_completed_paths !== undefined ? params.max_completed_paths : "N/A";
+                paramsContainer.style.display = "block";
+            } else {
+                paramsContainer.style.display = "none";
             }
 
             // Initialize Graph

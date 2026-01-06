@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Token Tree Visualizer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e24;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Drag & Drop Highlight State */
+        body.drag-active .upload-section {
+            border-color: #4caf50;
+            background-color: #2e3b2f;
+            transform: scale(1.02);
+        }
+
+        body.drag-active #graph-container {
+            opacity: 0.5;
+        }
+
+        #sidebar {
+            width: 350px;
+            background-color: #2b2b36;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #444;
+            z-index: 10;
+        }
+
+        #graph-container {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+            background-color: #1e1e24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s ease;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 1rem;
+            color: #aaa;
+            margin-bottom: 5px;
+            margin-top: 20px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        /* Upload Styles */
+        .upload-section {
+            background: #383844;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 2px dashed #666;
+            transition: all 0.2s ease;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #555;
+            display: inline-block;
+            padding: 8px 16px;
+            cursor: pointer;
+            background: #4caf50;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .custom-file-upload:hover {
+            background: #43a047;
+        }
+
+        #file-name {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #aaa;
+            word-break: break-all;
+        }
+
+        /* PROMPT BOX STYLES */
+        .prompt-box {
+            background: #25252e;
+            border-left: 3px solid #2196f3;
+            /* Blue accent */
+            padding: 10px;
+            border-radius: 0 4px 4px 0;
+            margin-bottom: 10px;
+        }
+
+        .prompt-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #2196f3;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #ddd;
+            max-height: 100px;
+            /* Limit height */
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Empty State */
+        #empty-state {
+            color: #666;
+            font-size: 1.2rem;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        /* Details Panel */
+        .stat-item {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .stat-label {
+            color: #888;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .full-text-box {
+            background: #111;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #ffe0b2;
+            max-height: 100px;
+            overflow-y: auto;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            border: 1px solid #555;
+            margin-bottom: 10px;
+        }
+
+        .candidate-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85rem;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .candidate-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 8px;
+            background: #333;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            border-left: 3px solid transparent;
+        }
+
+        .candidate-item.winner {
+            border-left: 3px solid #4caf50;
+            background: #2e3b2f;
+        }
+
+        .token-badge {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #ff9800;
+        }
+
+        /* D3 Styles */
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .node circle {
+            fill: #fff;
+            stroke: #ff9800;
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .node text {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            fill: #ddd;
+            text-shadow: 1px 1px 2px #000;
+            pointer-events: none;
+        }
+
+        .link {
+            fill: none;
+            stroke: #555;
+            stroke-width: 1.5px;
+            opacity: 0.6;
+        }
+
+        .node:hover circle {
+            r: 12 !important;
+            stroke: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="sidebar">
+        <h1>Token Tree Viz</h1>
+
+        <div class="upload-section" id="drop-zone">
+            <label for="file-upload" class="custom-file-upload">
+                📂 Select or Drop JSON
+            </label>
+            <input id="file-upload" type="file" accept=".json" />
+            <div id="file-name">No file selected</div>
+        </div>
+
+        <div id="prompt-container" class="prompt-box" style="display:none;">
+            <div class="prompt-label">Initial Prompt</div>
+            <div id="prompt-text" class="prompt-content"></div>
+        </div>
+
+        <div id="instruction" style="display:none; color: #666; font-style: italic; margin-top: 10px;">
+            Hover over a node to see the full sentence and candidates.
+        </div>
+
+        <div id="details-panel" style="display:none;">
+            <h2>Full Generated Sequence</h2>
+            <div style="font-size:0.75rem; color:#888; margin-bottom:4px;">(Prompt + Current Path)</div>
+            <div id="d-full-text" class="full-text-box"></div>
+
+            <h2>Selected Node</h2>
+            <div class="stat-item"><span class="stat-label">Token:</span> <span class="stat-value token-badge"
+                    id="d-token"></span></div>
+            <div class="stat-item"><span class="stat-label">Probability:</span> <span class="stat-value"
+                    id="d-prob"></span></div>
+            <div class="stat-item"><span class="stat-label">Token ID:</span> <span class="stat-value" id="d-id"></span>
+            </div>
+
+            <h2>Candidates Considered</h2>
+            <ul class="candidate-list" id="d-candidates"></ul>
+        </div>
+    </div>
+
+    <div id="graph-container">
+        <div id="empty-state">
+            Waiting for data...<br>
+            <span style="font-size: 0.9rem;">Drag & drop a JSON file here or use the sidebar.</span>
+        </div>
+    </div>
+
+    <script>
+        let svg, g, zoom;
+        const container = document.getElementById("graph-container");
+        let currentPrompt = ""; // Store prompt globally to prepend to sequences
+
+        // Initialize SVG
+        function initGraph() {
+            d3.select("#graph-container svg").remove();
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            svg = d3.select("#graph-container").append("svg").attr("width", width).attr("height", height);
+            g = svg.append("g");
+            zoom = d3.zoom().scaleExtent([0.1, 4]).on("zoom", (event) => g.attr("transform", event.transform));
+            svg.call(zoom);
+        }
+
+        // Render Logic
+        function renderTree(data) {
+            document.getElementById("empty-state").style.display = "none";
+            document.getElementById("instruction").style.display = "block";
+            document.getElementById("details-panel").style.display = "none";
+
+            // Handle Prompt Display
+            const promptContainer = document.getElementById("prompt-container");
+            const promptTextDiv = document.getElementById("prompt-text");
+
+            if (data.metadata && data.metadata.prompt) {
+                currentPrompt = data.metadata.prompt;
+                promptTextDiv.innerText = currentPrompt;
+                promptContainer.style.display = "block";
+            } else {
+                currentPrompt = "";
+                promptContainer.style.display = "none";
+            }
+
+            // Initialize Graph
+            initGraph();
+
+            const treeData = data.tree ? data.tree : data;
+            const root = d3.hierarchy(treeData);
+
+            const nodeWidth = 60;
+            const nodeHeight = 180;
+            const treeMap = d3.tree().nodeSize([nodeWidth, nodeHeight]);
+            const nodes = treeMap(root);
+
+            g.selectAll(".link")
+                .data(nodes.links())
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("d", d3.linkHorizontal().x(d => d.y).y(d => d.x));
+
+            const node = g.selectAll(".node")
+                .data(nodes.descendants())
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("transform", d => `translate(${d.y},${d.x})`)
+                .on("mouseover", showDetails);
+
+            node.append("circle")
+                .attr("r", d => 5 + (d.data.prob * 5))
+                .style("fill", d => d3.interpolateRdYlGn(d.data.prob));
+
+            node.append("text")
+                .attr("dy", ".35em")
+                .attr("x", d => d.children ? -13 : 13)
+                .style("text-anchor", d => d.children ? "end" : "start")
+                .text(d => {
+                    if (d.depth === 0) return "START";
+                    return d.data.text ? d.data.text.replace(/\n/g, "\\n") : "???";
+                });
+
+            const containerH = container.clientHeight;
+            const initialTransform = d3.zoomIdentity.translate(50, containerH / 2).scale(1);
+            svg.call(zoom.transform, initialTransform);
+        }
+
+        // Sidebar Details Logic
+        function showDetails(event, d) {
+            document.getElementById("instruction").style.display = "none";
+            document.getElementById("details-panel").style.display = "block";
+
+            // Calculate Path Text
+            let sequence = [];
+            let current = d;
+            while (current) {
+                if (current.data.text) {
+                    // Check if the root node text is identical to the prompt.
+                    // If so, we might not want to duplicate it, but usually standard is 
+                    // Prompt + Generated Tokens.
+                    // If the root node IS the prompt, we just add it. 
+                    sequence.unshift(current.data.text);
+                }
+                current = current.parent;
+            }
+
+            // Heuristic: If the first token in the tree exactly matches the prompt, 
+            // we assume the tree includes the prompt. If not, we prepend the prompt.
+            let fullText = sequence.join("");
+            if (currentPrompt && !fullText.startsWith(currentPrompt)) {
+                fullText = currentPrompt + fullText; // Prepend prompt if not present in tree
+            }
+
+            document.getElementById("d-full-text").innerText = fullText;
+
+            // Stats
+            const txt = d.data.text || "";
+            document.getElementById("d-token").innerText = txt.replace(/\n/g, "\\n");
+            document.getElementById("d-prob").innerText = (d.data.prob * 100).toFixed(2) + "%";
+            document.getElementById("d-id").innerText = d.data.token_id || "N/A";
+
+            // Candidates
+            const list = document.getElementById("d-candidates");
+            list.innerHTML = "";
+
+            if (d.data.candidates && d.data.candidates.length > 0) {
+                const sorted = [...d.data.candidates].sort((a, b) => b.prob - a.prob);
+                sorted.forEach(cand => {
+                    const li = document.createElement("li");
+                    const isWinner = cand.token_id === d.data.token_id;
+                    li.className = isWinner ? "candidate-item winner" : "candidate-item";
+
+                    const textSpan = document.createElement("span");
+                    textSpan.style.fontFamily = "monospace";
+                    textSpan.innerText = (cand.text || "").replace(/\n/g, "\\n");
+
+                    const probSpan = document.createElement("span");
+                    probSpan.innerText = (cand.prob * 100).toFixed(1) + "%";
+
+                    li.appendChild(textSpan);
+                    li.appendChild(probSpan);
+                    list.appendChild(li);
+                });
+            } else {
+                list.innerHTML = "<li style='color:#666; padding:5px;'>No alternatives recorded</li>";
+            }
+        }
+
+        // File Processing
+        function handleFile(file) {
+            if (!file) return;
+            if (file.type && file.type !== "application/json" && !file.name.endsWith(".json")) {
+                alert("Please drop a valid JSON file.");
+                return;
+            }
+            document.getElementById('file-name').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const json = JSON.parse(e.target.result);
+                    renderTree(json);
+                } catch (error) {
+                    alert("Error parsing JSON file. Please check the format.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Event Listeners
+        document.getElementById('file-upload').addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        const body = document.body;
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => body.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); }, false));
+        ['dragenter', 'dragover'].forEach(name => body.addEventListener(name, () => body.classList.add('drag-active'), false));
+        ['dragleave', 'drop'].forEach(name => body.addEventListener(name, () => body.classList.remove('drag-active'), false));
+        body.addEventListener('drop', (e) => handleFile(e.dataTransfer.files[0]), false);
+
+        window.addEventListener('resize', () => { if (svg) svg.attr("width", container.clientWidth).attr("height", container.clientHeight); });
+
+        // URL Parameter Logic
+        const urlParams = new URLSearchParams(window.location.search);
+        const dataFile = urlParams.get('file');
+
+        if (dataFile) {
+            document.getElementById('file-name').textContent = dataFile.split('/').pop();
+            fetch(dataFile)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(json => renderTree(json))
+                .catch(err => {
+                    console.error("Error loading file from URL:", err);
+                    alert("Could not load data from URL parameters: " + err.message);
+                });
+        }
+    </script>
+</body>
+
+</html>

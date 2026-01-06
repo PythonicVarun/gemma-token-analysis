@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Tree Analysis Samples</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f14 0%, #1a1a24 50%, #0f0f14 100%);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 50%, #00bcd4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .header .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin: 0;
+        }
+        
+        .header .badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 20px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, #1e1e28 0%, #252532 100%);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4caf50, #8bc34a, #00bcd4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(76, 175, 80, 0.2);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(0, 188, 212, 0.1) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon svg {
+            width: 22px;
+            height: 22px;
+            color: #4caf50;
+        }
+        
+        .card h3 {
+            margin: 0 0 12px 0;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.6;
+        }
+        
+        .card p {
+            color: #d0d0d0;
+            flex-grow: 1;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .card .meta {
+            font-size: 0.75rem;
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        
+        .card .arrow {
+            width: 32px;
+            height: 32px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .card .arrow svg {
+            width: 16px;
+            height: 16px;
+            color: #4caf50;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover .arrow {
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        .card:hover .arrow svg {
+            transform: translateX(3px);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 24px 16px;
+            }
+        }
+        
+        /* Staggered animation */
+        .card {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌳 Gemma Token Tree Analysis</h1>
+        <p class="subtitle">Explore how language models predict the next token</p>
+        <span class="badge">7 Sample Prompts</span>
+    </div>
+    <div class="container" id="card-container">
+        <!-- Cards will be injected here -->
+    </div>
+
+    <script>
+        const samples = [
+            {
+                prompt: "The secret to happiness is",
+                file: "happiness_secret_tree.json"
+            },
+            {
+                prompt: "If I'm being completely honest, I think",
+                file: "honest_opinion_tree.json"
+            },
+            {
+                prompt: "The capital of India is",
+                file: "india_capital_tree.json"
+            },
+            {
+                prompt: "The most important quality in a leader is",
+                file: "leader_quality_tree.json"
+            },
+            {
+                prompt: "As the alien spaceship landed on the White House lawn, the President decided to",
+                file: "president_decision_tree.json"
+            },
+            {
+                prompt: "Roses are red, violets are",
+                file: "roses_violets_tree.json"
+            },
+            {
+                prompt: "To sort the list of numbers efficiently, the best algorithm to use is",
+                file: "sort_algorithm_tree.json"
+            }
+        ];
+
+        const container = document.getElementById('card-container');
+
+        const treeIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+        </svg>`;
+        
+        const arrowIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>`;
+
+        samples.forEach((sample, index) => {
+            const card = document.createElement('a');
+            card.className = 'card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.href = `visualizer/index.html?file=../sample_outputs/${sample.file}`;
+            
+            const icon = document.createElement('div');
+            icon.className = 'card-icon';
+            icon.innerHTML = treeIcon;
+            
+            const title = document.createElement('h3');
+            title.textContent = "Prompt";
+            
+            const text = document.createElement('p');
+            text.textContent = `"${sample.prompt}..."`;
+            
+            const footer = document.createElement('div');
+            footer.className = 'card-footer';
+            
+            const meta = document.createElement('div');
+            meta.className = 'meta';
+            meta.textContent = sample.file;
+            
+            const arrow = document.createElement('div');
+            arrow.className = 'arrow';
+            arrow.innerHTML = arrowIcon;
+
+            footer.appendChild(meta);
+            footer.appendChild(arrow);
+
+            card.appendChild(icon);
+            card.appendChild(title);
+            card.appendChild(text);
+            card.appendChild(footer);
+            
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>

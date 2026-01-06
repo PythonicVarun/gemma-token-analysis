@@ -1,6 +1,9 @@
 # Gemma Token Analysis
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PythonicVarun/gemma-token-analysis/blob/master/Logprobs_in_Gemma.ipynb)
+| Notebook | Link |
+| :--- | :--- |
+| **Logprobs Generation** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PythonicVarun/gemma-token-analysis/blob/master/Logprobs_in_Gemma.ipynb) |
+| **Token Tree Analysis** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PythonicVarun/gemma-token-analysis/blob/master/Token_Tree_Analysis.ipynb) |
 
 This repository explores the internal stochastic nature of Gemma models. By extracting transition scores and logits from the Hugging Face `transformers` generation loop, we can analyze the model's confidence levels and visualize "competing" tokens at each step of the sequence.
 
@@ -9,11 +12,14 @@ This repository explores the internal stochastic nature of Gemma models. By extr
 - **Log Probability Analysis**: Extract and analyze the log probabilities of generated tokens to understand model confidence.
 - **Top-K Candidates**: View the top alternative tokens considered by the model at each step.
 - **Guided Generation**: Steer the model's output by providing a specific starting prefix (e.g., forcing a code block).
-- **Data Export**: Save analysis results to JSONL for further processing.
+- **Token Tree Exploration**: Construct and visualize decision trees of token generation paths based on probability thresholds.
+- **Data Export**: Save analysis results to JSONL or JSON for further processing.
 
 ## Repository Structure
 
-- `Logprobs_in_Gemma.ipynb`: The main Jupyter Notebook containing the analysis code, helper functions, and experiments.
+- `Logprobs_in_Gemma.ipynb`: The main Jupyter Notebook containing the log probability analysis code, helper functions, and experiments.
+- `Token_Tree_Analysis.ipynb`: Notebook for generating and analyzing token trees.
+- `token_tree_analysis/`: Contains the visualizer and sample outputs for the token tree analysis.
 
 ## Installation
 
@@ -21,7 +27,7 @@ This repository explores the internal stochastic nature of Gemma models. By extr
 2. Install the required dependencies:
 
 ```bash
-pip install -U torch transformers pandas accelerate bitsandbytes
+pip install -U torch transformers pandas accelerate numpy huggingface-hub
 ```
 
 ## Usage
@@ -33,10 +39,13 @@ pip install -U torch transformers pandas accelerate bitsandbytes
    - Load the Gemma model (default: `google/gemma-2-2b-it`).
    - Run the log probability analysis experiment.
    - Run the guided generation experiment.
+4. Open `Token_Tree_Analysis.ipynb` to generate and analyze token decision trees.
 
 ## Visualization
 
-You can visualize the generated JSONL data using the [Gemma Token Analysis Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/visualizer/).
+You can visualize the generated JSONL data using the [Gemma Token Analysis Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/logprobs-visualizer/).
+
+For analyzing token generation trees, use the [Token Tree Visualizer](https://pythonicvarun.github.io/gemma-token-analysis/token_tree_analysis/).
 
 ## Requirements
 

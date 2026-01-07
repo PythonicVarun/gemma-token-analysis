@@ -947,7 +947,7 @@
             const fileNameEl = document.getElementById('file-name');
             fileNameEl.textContent = "📄 " + file.name;
             fileNameEl.classList.add('visible');
-            
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 try {
@@ -979,7 +979,7 @@
             const fileNameEl = document.getElementById('file-name');
             fileNameEl.textContent = "📄 " + dataFile.split('/').pop();
             fileNameEl.classList.add('visible');
-            
+
             fetch(dataFile)
                 .then(response => {
                     if (!response.ok) {

@@ -117,7 +117,7 @@
                 border-color: var(--err-border);
                 background-color: var(--err-bg);
             }
-            
+
             .entry-card.error .card-header {
                 background-color: var(--err-header);
                 color: var(--err-text);
@@ -356,7 +356,7 @@
 
                 // Reset UI
                 contentDiv.innerHTML = '<div class="empty-state">Processing...</div>';
-                
+
                 const reader = new FileReader();
                 reader.onload = (ev) => processData(ev.target.result);
                 reader.onerror = () => {

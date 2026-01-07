@@ -140,13 +140,58 @@
         
         .card-footer {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: flex-start;
             margin-top: 24px;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
         
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tree {
+            background: rgba(0, 188, 212, 0.1);
+            color: #00bcd4;
+            border: 1px solid rgba(0, 188, 212, 0.2);
+        }
+
+        .btn-tree:hover {
+            background: rgba(0, 188, 212, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.15);
+        }
+
+        .btn-response {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .btn-response:hover {
+            background: rgba(76, 175, 80, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+        }
+
         .card .meta {
             font-size: 0.75rem;
             color: #666;
@@ -265,16 +310,11 @@
         const treeIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
         </svg>`;
-        
-        const arrowIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-        </svg>`;
 
         samples.forEach((sample, index) => {
-            const card = document.createElement('a');
+            const card = document.createElement('div');
             card.className = 'card';
             card.style.animationDelay = `${index * 0.1}s`;
-            card.href = `response-visualizer?file=../sample_outputs/${sample.file}`;
             
             const icon = document.createElement('div');
             icon.className = 'card-icon';
@@ -293,12 +333,30 @@
             meta.className = 'meta';
             meta.textContent = sample.file;
             
-            const arrow = document.createElement('div');
-            arrow.className = 'arrow';
-            arrow.innerHTML = arrowIcon;
+            const actions = document.createElement('div');
+            actions.className = 'card-actions';
+
+            const treeBtn = document.createElement('a');
+            treeBtn.className = 'action-btn btn-tree';
+            treeBtn.href = `tree-visualizer?file=../sample_outputs/${sample.file}`;
+            treeBtn.innerHTML = `
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                Tree By Token
+            `;
+
+            const responseBtn = document.createElement('a');
+            responseBtn.className = 'action-btn btn-response';
+            responseBtn.href = `response-visualizer?file=../sample_outputs/${sample.file}`;
+            responseBtn.innerHTML = `
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Response View
+            `;
+
+            actions.appendChild(treeBtn);
+            actions.appendChild(responseBtn);
 
             footer.appendChild(meta);
-            footer.appendChild(arrow);
+            footer.appendChild(actions);
 
             card.appendChild(icon);
             card.appendChild(title);

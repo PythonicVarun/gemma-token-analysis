@@ -100,6 +100,46 @@
             backdrop-filter: blur(4px);
         }
 
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 15, 20, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-normal);
+            backdrop-filter: blur(4px);
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        #loading-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(99, 102, 241, 0.3);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .drop-overlay-content {
             text-align: center;
             padding: 60px;
@@ -660,6 +700,12 @@
         </div>
     </div>
 
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loading-text">Loading data...</div>
+    </div>
+
     <div id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">🌳</div>
@@ -688,12 +734,20 @@
             <div class="params-label">⚙️ Generation Parameters</div>
             <div class="params-grid">
                 <div class="param-item">
-                    <div class="param-name">Branching Threshold</div>
-                    <div class="param-value" id="param-branching"></div>
+                    <div class="param-name">Min Branch</div>
+                    <div class="param-value" id="param-min-branch"></div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">Max Branch</div>
+                    <div class="param-value" id="param-max-branch"></div>
                 </div>
                 <div class="param-item">
                     <div class="param-name">Candidate Threshold</div>
                     <div class="param-value" id="param-candidate"></div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">Soft Queue</div>
+                    <div class="param-value" id="param-soft-queue"></div>
                 </div>
                 <div class="param-item">
                     <div class="param-name">Max Depth</div>
@@ -767,6 +821,17 @@
         const container = document.getElementById("graph-container");
         let currentPrompt = ""; // Store prompt globally to prepend to sequences
         let selectedNode = null;
+        const loadingOverlay = document.getElementById("loading-overlay");
+        const loadingText = document.getElementById("loading-text");
+
+        function showLoading(message = "Loading data...") {
+            loadingText.innerText = message;
+            loadingOverlay.classList.add("visible");
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove("visible");
+        }
 
         // Initialize SVG
         function initGraph() {
@@ -812,10 +877,14 @@
             const paramsContainer = document.getElementById("params-container");
             if (data.metadata && data.metadata.parameters) {
                 const params = data.metadata.parameters;
-                document.getElementById("param-branching").innerText = 
-                    params.branching_threshold !== undefined ? params.branching_threshold.toFixed(3) : "N/A";
+                document.getElementById("param-min-branch").innerText = 
+                    params.min_branch_threshold !== undefined ? params.min_branch_threshold.toFixed(3) : "N/A";
+                document.getElementById("param-max-branch").innerText = 
+                    params.max_branch_threshold !== undefined ? params.max_branch_threshold.toFixed(3) : "N/A";
                 document.getElementById("param-candidate").innerText = 
                     params.candidate_threshold !== undefined ? params.candidate_threshold.toFixed(3) : "N/A";
+                document.getElementById("param-soft-queue").innerText = 
+                    params.soft_queue_limit !== undefined ? params.soft_queue_limit : "N/A";
                 document.getElementById("param-max-depth").innerText = 
                     params.max_depth !== undefined ? params.max_depth : "N/A";
                 document.getElementById("param-max-paths").innerText = 
@@ -948,15 +1017,42 @@
             fileNameEl.textContent = "📄 " + file.name;
             fileNameEl.classList.add('visible');
 
+            showLoading(`Reading ${file.name}...`);
+
             const reader = new FileReader();
-            reader.onload = function (e) {
-                try {
-                    const json = JSON.parse(e.target.result);
-                    renderTree(json);
-                } catch (error) {
-                    alert("Error parsing JSON file. Please check the format.");
+
+            reader.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    showLoading(`Reading file... ${percent}%`);
                 }
             };
+
+            reader.onload = function (e) {
+                try {
+                    showLoading("Parsing JSON...");
+                    // Small delay to allow UI to update
+                    setTimeout(() => {
+                        try {
+                            const json = JSON.parse(e.target.result);
+                            renderTree(json);
+                        } catch (error) {
+                            alert("Error parsing JSON file. Please check the format.");
+                        } finally {
+                            hideLoading();
+                        }
+                    }, 50);
+                } catch (error) {
+                    hideLoading();
+                    alert("Error processing file.");
+                }
+            };
+
+            reader.onerror = () => {
+                hideLoading();
+                alert("Error reading file.");
+            };
+
             reader.readAsText(file);
         }
 
@@ -980,6 +1076,8 @@
             fileNameEl.textContent = "📄 " + dataFile.split('/').pop();
             fileNameEl.classList.add('visible');
 
+            showLoading("Fetching remote data...");
+
             fetch(dataFile)
                 .then(response => {
                     if (!response.ok) {
@@ -987,10 +1085,21 @@
                     }
                     return response.json();
                 })
-                .then(json => renderTree(json))
+                .then(json => {
+                    showLoading("Rendering tree...");
+                    // Delay for UI update
+                    setTimeout(() => {
+                        try {
+                            renderTree(json);
+                        } finally {
+                            hideLoading();
+                        }
+                    }, 50);
+                })
                 .catch(err => {
                     console.error("Error loading file from URL:", err);
                     alert("Could not load data from URL parameters: " + err.message);
+                    hideLoading();
                 });
         }
     </script>

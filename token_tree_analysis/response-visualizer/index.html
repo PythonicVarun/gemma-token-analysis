@@ -158,6 +158,12 @@
             transform: translateY(-2px);
         }
 
+        .token.last-updated {
+            z-index: 1;
+            box-shadow: 0 0 10px var(--accent-purple), 0 0 2px var(--accent-purple) inset;
+            border-color: var(--accent-purple) !important;
+        }
+
         .token[data-prob-level="high"] {
             background: var(--prob-high-bg);
             border-color: var(--prob-high-border);
@@ -545,6 +551,49 @@
             font-size: 0.75rem;
         }
 
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(34, 211, 238, 0.3);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .remove-file {
             background: rgba(255, 255, 255, 0.1);
             border: none;
@@ -925,6 +974,12 @@
     <!-- Success Toast -->
     <div class="success-toast" id="successToast">✓ File loaded successfully!</div>
 
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Loading data...</div>
+    </div>
+
     <script>
         const sample_data_file = "../sample_outputs/scales_reading_tree.json";
 
@@ -932,6 +987,7 @@
         let originalPath = [];
         let currentPath = [];
         let activeTokenIndex = null;
+        let lastUpdatedIndex = null;
         let currentFileName = '';
         let showWhitespace = true;
 
@@ -950,6 +1006,17 @@
         const resetBtn = document.getElementById('resetBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const whitespaceToggle = document.getElementById('whitespaceToggle');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+
+        function showLoading(message = 'Loading data...') {
+            loadingText.textContent = message;
+            loadingOverlay.classList.add('visible');
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove('visible');
+        }
 
         // Whitespace toggle
         whitespaceToggle.addEventListener('click', () => {
@@ -994,12 +1061,14 @@
 
         loadSampleBtn.addEventListener('click', async () => {
             try {
+                showLoading('Fetching sample data...');
                 const response = await fetch(sample_data_file);
 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
                 }
 
+                showLoading('Parsing JSON...');
                 const jsonData = await response.json();
                 const errors = validateSchema(jsonData);
 
@@ -1014,6 +1083,8 @@
                 loadData(jsonData, fileName);
             } catch (err) {
                 showError('Load Failed', `Could not load file from URL. ${err.message}`);
+            } finally {
+                hideLoading();
             }
         });
 
@@ -1023,6 +1094,7 @@
 
         resetBtn.addEventListener('click', () => {
             currentPath = JSON.parse(JSON.stringify(originalPath));
+            lastUpdatedIndex = null;
             renderSentence();
             showToast('Reset to original path');
         });
@@ -1039,25 +1111,46 @@
                 return;
             }
 
-            if (file.size > 10 * 1024 * 1024) {
-                showError('File too large', 'Maximum file size is 10MB.');
+            if (file.size > 50 * 1024 * 1024) { // Increased limit for larger files
+                showError('File too large', 'Maximum file size is 50MB.');
                 return;
             }
 
             currentFileName = file.name;
+            showLoading(`Reading ${file.name}...`);
 
             const reader = new FileReader();
+
+            reader.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    showLoading(`Reading file... ${percent}%`);
+                }
+            };
+
             reader.onload = (e) => {
                 try {
-                    const jsonData = JSON.parse(e.target.result);
-                    validateAndLoadData(jsonData, file);
+                    showLoading('Parsing JSON...');
+                    // Small delay to allow UI to update
+                    setTimeout(() => {
+                        try {
+                            const jsonData = JSON.parse(e.target.result);
+                            validateAndLoadData(jsonData, file);
+                        } catch (err) {
+                            showError('Invalid JSON', 'The file contains invalid JSON.');
+                            showUploadedFile(file, true);
+                        } finally {
+                            hideLoading();
+                        }
+                    }, 50);
                 } catch (err) {
-                    showError('Invalid JSON', 'The file contains invalid JSON.');
-                    showUploadedFile(file, true);
+                    hideLoading();
+                    showError('Processing Error', 'Failed to process the file.');
                 }
             };
 
             reader.onerror = () => {
+                hideLoading();
                 showError('Read Error', 'Failed to read the file.');
             };
 
@@ -1280,6 +1373,10 @@
                 tokenEl.dataset.prob = isPromptText ? 'Initial Prompt' : `${(token.prob * 100).toFixed(1)}%`;
                 tokenEl.dataset.index = index;
 
+                if (index === lastUpdatedIndex) {
+                    tokenEl.classList.add('last-updated');
+                }
+
                 if (!isPromptText && hasCandidates) {
                     tokenEl.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -1439,6 +1536,7 @@
             }
 
             activeTokenIndex = null;
+            lastUpdatedIndex = index;
             renderSentence();
         }
 
@@ -1448,12 +1546,20 @@
 
             grid.innerHTML = `
                 <div class="metadata-item">
-                    <div class="metadata-value">${params.branching_threshold}</div>
-                    <div class="metadata-label">Branching</div>
+                    <div class="metadata-value">${params.min_branch_threshold || 'N/A'}</div>
+                    <div class="metadata-label">Min Branch</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${params.max_branch_threshold || 'N/A'}</div>
+                    <div class="metadata-label">Max Branch</div>
                 </div>
                 <div class="metadata-item">
                     <div class="metadata-value">${params.candidate_threshold}</div>
                     <div class="metadata-label">Candidate</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${params.soft_queue_limit || 'N/A'}</div>
+                    <div class="metadata-label">Soft Queue</div>
                 </div>
                 <div class="metadata-item">
                     <div class="metadata-value">${params.max_depth}</div>
@@ -1494,6 +1600,7 @@
         function loadData(jsonData, fileName) {
             data = jsonData;
             currentFileName = fileName;
+            lastUpdatedIndex = null;
 
             document.getElementById('promptDisplay').textContent = data.metadata.prompt;
             currentPath = buildInitialPath(data.tree);
@@ -1520,6 +1627,7 @@
             if (!fileParam) return;
 
             try {
+                showLoading('Fetching remote data...');
                 const fileUrl = new URL(fileParam, window.location.href);
                 const response = await fetch(fileUrl);
 
@@ -1527,6 +1635,7 @@
                     throw new Error(`HTTP ${response.status}`);
                 }
 
+                showLoading('Parsing JSON...');
                 const jsonData = await response.json();
                 const errors = validateSchema(jsonData);
 
@@ -1540,6 +1649,8 @@
                 loadData(jsonData, fileName);
             } catch (err) {
                 showError('Load Failed', `Could not load file from URL. ${err.message}`);
+            } finally {
+                hideLoading();
             }
         }
 

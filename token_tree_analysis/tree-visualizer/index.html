@@ -657,6 +657,13 @@
             stroke: var(--border-color);
             stroke-width: 2px;
             opacity: 0.5;
+            transition: all var(--transition-fast);
+        }
+
+        .link.active {
+            stroke: var(--accent-primary);
+            stroke-width: 3px;
+            opacity: 1;
         }
 
         .node:hover circle {
@@ -666,6 +673,11 @@
 
         .node.selected circle {
             stroke: #fff;
+            stroke-width: 3px;
+        }
+
+        .node.active circle {
+            stroke: var(--accent-primary);
             stroke-width: 3px;
         }
 
@@ -926,9 +938,21 @@
                     .on("mouseover", function(event, d) {
                         showDetails(event, d);
                         d3.select(this).classed("selected", true);
+
+                        // Highlight path
+                        const ancestors = d.ancestors();
+                        g.selectAll(".link")
+                            .classed("active", link => ancestors.includes(link.target));
+
+                        g.selectAll(".node")
+                             .classed("active", n => ancestors.includes(n));
                     })
                     .on("mouseout", function() {
                         d3.select(this).classed("selected", false);
+
+                        // Remove highlight
+                        g.selectAll(".link").classed("active", false);
+                        g.selectAll(".node").classed("active", false);
                     });
 
                 nodeEnter.append("circle")

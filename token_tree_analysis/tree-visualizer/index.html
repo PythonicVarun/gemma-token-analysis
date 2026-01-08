@@ -815,6 +815,7 @@
             <button class="zoom-btn" id="zoom-in" title="Zoom In">+</button>
             <button class="zoom-btn" id="zoom-out" title="Zoom Out">−</button>
             <button class="zoom-btn" id="zoom-reset" title="Reset View">⟲</button>
+            <button class="zoom-btn" id="tree-toggle" title="Expand/Collapse All">↕</button>
         </div>
 
         <!-- Legend -->
@@ -914,6 +915,51 @@
 
             root.x0 = container.clientHeight / 2;
             root.y0 = 0;
+
+            function collapse(d) {
+                if (d.children) {
+                    d._children = d.children;
+                    d._children.forEach(collapse);
+                    d.children = null;
+                }
+            }
+
+            function expand(d) {
+                if (d._children) {
+                    d.children = d._children;
+                    d._children = null;
+                }
+                if (d.children) {
+                    d.children.forEach(expand);
+                }
+            }
+
+            function expandToBranch(d) {
+                if (d._children) {
+                    d.children = d._children;
+                    d._children = null;
+                }
+                if (d.children && d.children.length === 1) {
+                    expandToBranch(d.children[0]);
+                }
+            }
+
+            if (root.children) {
+                root.children.forEach(collapse);
+            }
+
+            let isExpanded = false;
+            document.getElementById("tree-toggle").onclick = () => {
+                isExpanded = !isExpanded;
+                if (isExpanded) {
+                    expand(root);
+                } else {
+                    if (root.children) {
+                        root.children.forEach(collapse);
+                    }
+                }
+                update(root);
+            };
 
             const nodeWidth = 65;
             const nodeHeight = 200;
@@ -1032,8 +1078,7 @@
                     d._children = d.children;
                     d.children = null;
                 } else {
-                    d.children = d._children;
-                    d._children = null;
+                    expandToBranch(d);
                 }
                 update(d);
             }

@@ -654,7 +654,7 @@
 
         .link {
             fill: none;
-            stroke: var(--border-color);
+            stroke: #B2BBC7;
             stroke-width: 2px;
             opacity: 0.5;
             transition: all var(--transition-fast);
@@ -1012,7 +1012,7 @@
                     .attr("x", d => d.children || d._children ? -15 : 15)
                     .attr("text-anchor", d => d.children || d._children ? "end" : "start")
                     .text(d => {
-                        if (d.depth === 0) return "⚡ START";
+                        if (d.depth === 0) return (data.metadata.prompt || "⚡ START");
                         const text = d.data.text ? d.data.text.replace(/\n/g, "↵") : "???";
                         return text.length > 12 ? text.slice(0, 10) + "…" : text;
                     })

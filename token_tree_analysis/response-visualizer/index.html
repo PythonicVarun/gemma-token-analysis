@@ -164,6 +164,13 @@
             border-color: var(--accent-purple) !important;
         }
 
+        .token.no-candidates {
+            opacity: 0.5;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            border-style: dashed;
+            cursor: not-allowed;
+        }
+
         .token[data-prob-level="high"] {
             background: var(--prob-high-bg);
             border-color: var(--prob-high-border);
@@ -1348,10 +1355,13 @@
                 let hasCandidates = false;
                 if (!isPromptText) {
                     let candidates = [];
+                    let parentNode = null;
+
                     if (index === 0) {
-                        candidates = data.tree.candidates || [];
+                        parentNode = data.tree;
+                        candidates = parentNode.candidates || [];
                     } else {
-                        const parentNode = currentPath[index - 1].node;
+                        parentNode = currentPath[index - 1].node;
                         if (parentNode && parentNode.candidates) {
                             candidates = parentNode.candidates;
                         }
@@ -1361,9 +1371,22 @@
                         candidates = token.candidates || [];
                     }
 
+                    let hasExpandable = false;
                     if (candidates && candidates.length > 0) {
-                        hasCandidates = true;
+                        if (parentNode && parentNode.children) {
+                            hasExpandable = candidates.filter(candidate => candidate.token_id != token.token_id).some(candidate => {
+                                const matchingChild = parentNode.children.find(c => c.token_id === candidate.token_id);
+                                return matchingChild && matchingChild.children && matchingChild.children.length > 0;
+                            });
+                        }
+                    }
+
+                    hasCandidates = candidates && candidates.length > 0;
+                    if (hasExpandable) {
                         tokenEl.classList.add('interactive');
+                    } else {
+                        tokenEl.classList.add('no-candidates');
+                        tokenEl.title = "No expandable candidates available"; 
                     }
                 }
 

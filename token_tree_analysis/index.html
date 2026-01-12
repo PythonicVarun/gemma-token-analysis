@@ -103,6 +103,29 @@
             border: 1px solid rgba(76, 175, 80, 0.3);
         }
 
+        .intro-box {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            text-align: center;
+            line-height: 1.8;
+            color: #c0c0c0;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .intro-box p {
+            margin: 0;
+        }
+
+        .intro-box strong {
+            color: #4caf50;
+            font-weight: 600;
+        }
+
         .container {
             max-width: 1300px;
             margin: 0 auto;
@@ -324,6 +347,16 @@
         <p class="subtitle">Explore how language models predict the next token</p>
         <span class="badge">7 Sample Prompts</span>
     </div>
+
+    <div class="intro-box">
+        <p>
+            🤔 Ever wondered how AI actually "thinks"? This dashboard lets you peek inside the "brain" of the Gemma language
+            model. When an AI writes, it doesn't just pick one word, it considers many possibilities at every step. 
+            Select a prompt below to visualize these <strong>Token Trees</strong> and see the "multiverse" of paths the model
+            considered but didn't take. It's a fascinating look at how probability shapes creativity!
+        </p>
+    </div>
+
     <div class="container" id="card-container">
         <!-- Cards will be injected here -->
     </div>

@@ -916,6 +916,12 @@
             root.x0 = container.clientHeight / 2;
             root.y0 = 0;
 
+            // Stable ID assignment for state tracking
+            let i = 0;
+            root.descendants().forEach(d => {
+                d.id = ++i;
+            });
+
             function collapse(d) {
                 if (d.children) {
                     d._children = d.children;
@@ -944,8 +950,53 @@
                 }
             }
 
-            if (root.children) {
-                root.children.forEach(collapse);
+            // Base64 State Helpers
+            function idsToBase64(ids) {
+                return btoa(ids.join(',')).replace(/=+$/, '');
+            }
+
+            function base64ToIds(b64) {
+                try {
+                    return atob(b64).split(',').map(Number);
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            // Restore State from Hash if loaded via ?file
+            const urlHash = window.location.hash.replace('#', '');
+            const expandedIds = new Set(urlHash ? base64ToIds(urlHash) : []);
+            const shouldRestoreState = dataFile && expandedIds.size > 0;
+
+            if (shouldRestoreState) {
+                root.descendants().forEach(d => {
+                    // Check if this node is NOT in the expanded set, but currently expanded
+                    if (d.children && !expandedIds.has(d.id)) {
+                        collapse(d);
+                    }
+                });
+            } else {
+                if (root.children) {
+                    root.children.forEach(collapse);
+                }
+            }
+
+            // Update Hash Function
+            function updateStateHash() {
+                if (!dataFile) return;
+                
+                const expanded = [];
+                root.descendants().forEach(d => {
+                    if (d.children) {
+                        expanded.push(d.id);
+                    }
+                });
+                
+                if (expanded.length > 0) {
+                    history.replaceState(null, null, '#' + idsToBase64(expanded));
+                } else {
+                    history.replaceState(null, null, ' ');
+                }
             }
 
             let isExpanded = false;
@@ -959,13 +1010,12 @@
                     }
                 }
                 update(root);
+                updateStateHash();
             };
 
             const nodeWidth = 65;
             const nodeHeight = 200;
             const treeMap = d3.tree().nodeSize([nodeWidth, nodeHeight]);
-
-            let i = 0;
 
             function update(source) {
                 const navTree = treeMap(root);
@@ -1081,6 +1131,7 @@
                     expandToBranch(d);
                 }
                 update(d);
+                updateStateHash();
             }
 
             update(root);

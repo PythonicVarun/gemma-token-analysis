@@ -1,0 +1,475 @@
+Source: token_tree_analysis/sample_outputs/roses_violets_tree.json
+Prompt: Roses are red, violets are
+Total branches: 45
+================================================================================
+
+Branch 1:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you.
+
+This is a classic poem, and it's a great example of a simple, rhyming poem. 
+
+Here are some other
+--------------------------------------------------------------------------------
+
+Branch 2:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you. 
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 3:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you. 
+
+This is a classic Valentine's Day poem! 
+
+Do you have any other poems you'd like to share?
+--------------------------------------------------------------------------------
+
+Branch 4:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you. 
+ 
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+Here
+--------------------------------------------------------------------------------
+
+Branch 5:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you.
+ 
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message. 
+
+Here are some other
+--------------------------------------------------------------------------------
+
+Branch 6:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you.
+ 
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message of love. 
+
+Here are
+--------------------------------------------------------------------------------
+
+Branch 7:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you!
+
+This is a classic Valentine's Day poem, perfect for sharing with your loved one. 
+
+Here are some other ideas for
+--------------------------------------------------------------------------------
+
+Branch 8:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you!
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+Here are some tips
+--------------------------------------------------------------------------------
+
+Branch 9:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you!
+
+This is a classic Valentine's Day poem. 
+
+Here are some other options:
+
+**Romantic:**
+
+*  "
+--------------------------------------------------------------------------------
+
+Branch 10:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you!
+
+This is a classic Valentine's Day poem. 
+
+Here's a little more about it:
+
+* **Structure:**
+--------------------------------------------------------------------------------
+
+Branch 11:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so are you! 
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 12:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message of love. 
+
+Here are some things
+--------------------------------------------------------------------------------
+
+Branch 13:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message. 
+
+Here's a breakdown of
+--------------------------------------------------------------------------------
+
+Branch 14:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message. 
+
+Here are some things to consider
+--------------------------------------------------------------------------------
+
+Branch 15:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to create a simple and sweet message. 
+
+Here's a breakdown of
+--------------------------------------------------------------------------------
+
+Branch 16:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to create a simple and sweet message of love. 
+
+Here are some things
+--------------------------------------------------------------------------------
+
+Branch 17:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to create a sweet and simple message. 
+
+Here's a breakdown of
+--------------------------------------------------------------------------------
+
+Branch 18:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to create a sweet and simple message. 
+
+Here are some things to consider
+--------------------------------------------------------------------------------
+
+Branch 19:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to create a sweet and simple message of love. 
+
+Here are some things
+--------------------------------------------------------------------------------
+
+Branch 20:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to make it memorable. 
+
+Here's a breakdown of the poem'
+--------------------------------------------------------------------------------
+
+Branch 21:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you.
+
+This is a classic poem that uses rhyme and repetition to make it memorable. 
+
+Here are some other things to consider about this
+--------------------------------------------------------------------------------
+
+Branch 22:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you. 
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 23:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you. 
+
+This is a classic Valentine's Day poem! 
+
+Do you have any other poems you'd like to share?
+--------------------------------------------------------------------------------
+
+Branch 24:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you!
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+Here are some tips
+--------------------------------------------------------------------------------
+
+Branch 25:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you!
+
+This is a classic Valentine's Day poem, and it's a great way to show your love! 
+
+Here are
+--------------------------------------------------------------------------------
+
+Branch 26:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you!
+
+This is a classic Valentine's Day poem, and it's a great way to show someone you care. 
+
+Here
+--------------------------------------------------------------------------------
+
+Branch 27:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you!
+
+This is a classic Valentine's Day poem, and it's a great way to express your love for someone special. 
+--------------------------------------------------------------------------------
+
+Branch 28:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you!
+
+This is a classic Valentine's Day poem. 
+
+Here are some other options:
+
+**Romantic:**
+
+*  "
+--------------------------------------------------------------------------------
+
+Branch 29:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you!
+
+This is a classic Valentine's Day poem. 
+
+Here's a little more about it:
+
+* **Structure:**
+--------------------------------------------------------------------------------
+
+Branch 30:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you! 
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 31:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is you! 
+
+This is a classic Valentine's Day poem! 
+
+Do you have any other poems you'd like to share?
+--------------------------------------------------------------------------------
+
+Branch 32:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is glue.
+ 
+This is a classic tongue twister, designed to be difficult to say quickly. 
+
+Here's why it's
+--------------------------------------------------------------------------------
+
+Branch 33:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is glue.
+ 
+This is a classic tongue twister, designed to be difficult to say quickly. 
+
+Here's why it works:
+--------------------------------------------------------------------------------
+
+Branch 34:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue,
+Sugar is sweet, and so is glue.
+
+This is a classic tongue twister, designed to be difficult to say quickly. 
+
+Here's why it's so tricky
+--------------------------------------------------------------------------------
+
+Branch 35:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you. 
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 36:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you. 
+
+This is a classic Valentine's Day poem! 
+
+Do you have any other poems you'd like to
+--------------------------------------------------------------------------------
+
+Branch 37:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message. 
+
+Here are some things
+--------------------------------------------------------------------------------
+
+Branch 38:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message. 
+
+Here's a
+--------------------------------------------------------------------------------
+
+Branch 39:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and rhythm to create a sweet and simple message of love. 
+
+Here are
+--------------------------------------------------------------------------------
+
+Branch 40:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and repetition to make it memorable. 
+
+Here are some other things to consider
+--------------------------------------------------------------------------------
+
+Branch 41:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and repetition to make it memorable. 
+
+Here's a breakdown of its
+--------------------------------------------------------------------------------
+
+Branch 42:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and repetition to create a simple but sweet message. 
+
+Here are some things
+--------------------------------------------------------------------------------
+
+Branch 43:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you.
+
+This is a classic poem that uses rhyme and repetition to create a simple but sweet message of love. 
+
+Here are
+--------------------------------------------------------------------------------
+
+Branch 44:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you! 
+
+This is a classic Valentine's Day poem. 
+
+Do you want to try writing one? 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 45:
+--------------------------------------------------------------------------------
+Roses are red, violets are blue, 
+Sugar is sweet, and so are you!
+
+This is a classic Valentine's Day poem! 
+
+Do you want to try writing one? 
+Here are
+--------------------------------------------------------------------------------
+

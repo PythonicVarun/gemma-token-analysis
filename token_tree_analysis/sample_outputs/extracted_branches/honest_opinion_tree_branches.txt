@@ -1,0 +1,592 @@
+Source: token_tree_analysis/sample_outputs/honest_opinion_tree.json
+Prompt: If I'm being completely honest, I think
+Total branches: 53
+================================================================================
+
+Branch 1:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like things to be done my way, and I can get frustrated when things don't go according to plan. 
+
+Is this something I can change? 
+
+It's great that you're recognizing this about yourself and wanting to make a change. It's a sign of self-awareness and a willingness to grow.  Here's the good news: you absolutely can change! 
+
+**Understanding Control Freak Behavior**
+
+Control freak tendencies often
+--------------------------------------------------------------------------------
+
+Branch 2:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like things to be done a certain way, and I can get frustrated when things don't go according to plan. 
+
+Is this something I can change? 
+
+It's great that you're recognizing this about yourself and wanting to make a change. It's a sign of self-awareness and a willingness to grow.  Here's the good news: you absolutely can change! 
+
+**Understanding Control Freak Behavior**
+
+Control freak tendencies
+--------------------------------------------------------------------------------
+
+Branch 3:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like to have things in order, and I like to know what's going on. I'm not afraid to speak up and tell people what I think, even if it's not what they want to hear.
+
+This can be a good thing, because it can help me to be assertive and to stand up for myself. But it can also be a bad thing, because it can make me seem controlling and even manipulative.
+
+I'm trying to
+--------------------------------------------------------------------------------
+
+Branch 4:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like to have things in order and things done my way. I'm not saying I'm perfect, but I do try to be organized and efficient. 
+
+But lately, I've been feeling a bit overwhelmed by the need to control everything. I'm starting to feel like I'm losing my sense of self and my ability to adapt to change. 
+
+What can I do to manage my need for control and find a better balance?
+
+
+--------------------------------------------------------------------------------
+
+Branch 5:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like to have everything planned out, and I don't like surprises. I'm also very detail-oriented, and I like to make sure everything is perfect.
+
+This can be a good thing, as it can help me to be organized and efficient. But it can also be a problem, as it can make me inflexible and difficult to work with.
+
+I'm trying to be more flexible and open to new experiences, but it's a work
+--------------------------------------------------------------------------------
+
+Branch 6:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like to have everything planned out and know exactly what's going to happen. I get anxious when things aren't going according to plan. 
+
+Is this something I can change? 
+
+It's great that you're recognizing this pattern and wanting to change. It's a sign of self-awareness and a willingness to grow.  Here's the good news: you absolutely can change! 
+
+**Understanding Control Freak tendencies:**
+
+*
+--------------------------------------------------------------------------------
+
+Branch 7:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. I like to know what's going on, when things are happening, and how things are going to turn out. I'm not saying I'm perfect at it, but I do like to have a plan and stick to it. 
+
+I've noticed that this tendency can sometimes lead to conflict. I'm not always the most flexible, and I can get frustrated when things don't go according to plan. 
+
+I'm trying to
+--------------------------------------------------------------------------------
+
+Branch 8:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. 
+
+I know it's not a good thing, but I can't help it. I like things to be done my way, and I get frustrated when things don't go according to plan. 
+
+I'm trying to work on it, but it's hard. 
+
+Do you have any advice for someone who wants to be less of a control freak?
+
+It's great that you're recognizing this and wanting to work on
+--------------------------------------------------------------------------------
+
+Branch 9:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a bit of a control freak. 
+
+I know it's not a good thing, and I'm trying to work on it. But sometimes, I just feel the need to have everything in my control, even if it's not necessary. 
+
+I'm wondering if there are any exercises or techniques that can help me loosen up and let go of some of that control?
+
+It's great that you're recognizing this and wanting to work on it! It's a
+--------------------------------------------------------------------------------
+
+Branch 10:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a little bit obsessed with the idea of a "perfect" life.  
+
+It's not that I'm unhappy with my life, but I'm constantly comparing myself to others and trying to achieve some idealized version of success.  I'm always looking for the next big thing, the next achievement, the next thing that will make me feel like I'm finally living the life I've always dreamed of.
+
+But here's the thing: I think I'm missing the
+--------------------------------------------------------------------------------
+
+Branch 11:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up some pretty impressive dishes. I'm always experimenting with new recipes and techniques, and I'm always looking for ways to improve my skills.
+
+I'm also a big believer in the power of food to bring people together. A good meal can be a source of comfort, joy, and connection. I love to share my cooking with friends and family, and I'm always happy to help others learn how
+--------------------------------------------------------------------------------
+
+Branch 12:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up some pretty impressive dishes. I've been cooking since I was a kid, and I've learned a lot over the years. I'm always experimenting with new recipes and techniques.
+
+I'm particularly proud of my ability to make a perfect roast chicken. I've perfected the technique over time, and I can guarantee that every time I make one, it's juicy, flavorful, and perfectly cooked
+--------------------------------------------------------------------------------
+
+Branch 13:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up some pretty impressive dishes. I've been cooking since I was a kid, and I've learned a lot over the years. I'm always experimenting with new recipes and techniques.
+
+I'm particularly proud of my ability to make a perfect roast chicken. I've perfected the technique over time, and I can guarantee that every time I make one, it's juicy and flavorful.
+
+What are
+--------------------------------------------------------------------------------
+
+Branch 14:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up some pretty impressive meals. I'm always experimenting with new recipes and techniques, and I'm always looking for ways to improve my skills.
+
+I'm also a big believer in the power of food to bring people together. A good meal can be a source of comfort, joy, and connection. I love to share my cooking with friends and family, and I'm always happy to help others learn how
+--------------------------------------------------------------------------------
+
+Branch 15:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up a decent meal. I've got a good eye for flavor and I'm always experimenting with new recipes. 
+
+But I'm also a bit of a perfectionist. I want everything to be perfect, from the ingredients to the presentation. I'm not afraid to put in the time and effort to make something truly delicious.
+
+So, what are some tips for improving my cooking skills?
+
+**
+--------------------------------------------------------------------------------
+
+Branch 16:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up a decent meal. I'm comfortable in the kitchen, and I enjoy the process of creating something delicious.
+
+But I'm always looking for ways to improve my skills. I'm curious about what other people think about my cooking. What are some ways to get feedback on your cooking?
+
+Here are some ideas:
+
+* **Ask friends and family for honest feedback.** This is the most direct way to
+--------------------------------------------------------------------------------
+
+Branch 17:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up a decent meal. I'm comfortable in the kitchen, and I enjoy the process of creating something delicious.
+
+But I'm always looking for ways to improve my skills. I'm curious about what other people think about my cooking. What are some ways to get feedback on your cooking?
+
+Here are a few ideas:
+
+* **Ask friends and family for honest feedback.** This is the most direct way
+--------------------------------------------------------------------------------
+
+Branch 18:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I'm not a professional chef, but I can whip up a decent meal. I'm comfortable in the kitchen and enjoy experimenting with new recipes. 
+
+But I'm always looking for ways to improve my skills. I'm curious to know what are some of the best resources for learning to cook?
+
+Here are some things I'd like to improve:
+
+* **Knife skills:** I'm not confident in my ability to chop, dice, and slice
+--------------------------------------------------------------------------------
+
+Branch 19:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've been cooking for years, and I've learned a lot about different cuisines and techniques. I'm comfortable in the kitchen, and I can handle a lot of pressure.
+
+But I'm also a perfectionist. I want everything to be perfect, and I'm not afraid to experiment and try new things. I'm always looking for ways to improve my cooking, and I'm not afraid to fail.
+
+So, I'm looking for
+--------------------------------------------------------------------------------
+
+Branch 20:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've been cooking for years and I've learned a lot about different cuisines and techniques. I'm confident in my abilities and I'm always looking for new ways to improve.
+
+But I'm also a bit of a perfectionist. I want everything to be perfect, from the taste to the presentation. And sometimes, that can be a bit of a challenge.
+
+Here are some of the things I've learned about being a good cook:
+
+**
+--------------------------------------------------------------------------------
+
+Branch 21:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've been cooking for years and I'm comfortable in the kitchen. But I'm always looking for new recipes and techniques to try. 
+
+What are some of your favorite cooking resources? 
+
+I'm looking for resources that are:
+
+* **Beginner-friendly:** I'm not looking for anything too complicated or advanced.
+* **Diverse:** I want to explore different cuisines and cooking styles.
+* **Reliable:** I want to be able to
+--------------------------------------------------------------------------------
+
+Branch 22:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've been cooking since I was a kid, and I've learned a lot over the years. I'm comfortable in the kitchen, and I can handle a variety of tasks. I'm also pretty good at following recipes, but I'm not afraid to experiment and come up with my own dishes.
+
+I'm looking for some feedback on my cooking skills. What are some things I're doing well, and what could I improve on?
+
+It
+--------------------------------------------------------------------------------
+
+Branch 23:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've been cooking since I was a kid and I've learned a lot over the years. I'm not afraid to experiment and I'm always looking for new recipes to try. I'm also a pretty good baker.
+
+But I'm always looking for ways to improve my skills. I'm curious to know what other people think about my cooking. What are some tips for improving my cooking skills?
+
+I'm excited to hear your thoughts!
+--------------------------------------------------------------------------------
+
+Branch 24:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've got a good eye for flavor and I can whip up a mean meal. But I'm always looking for new ways to improve my skills. 
+
+What are some resources that you recommend for learning more about cooking?
+
+**Here are some things I'm interested in:**
+
+* **Specific techniques:**  I'm interested in learning more about things like braising, sous vide, and making perfect pasta.
+* **Regional cuisines:** I'd love
+--------------------------------------------------------------------------------
+
+Branch 25:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've got a good eye for flavor and I can whip up a mean meal. But I'm always looking for new ways to improve my skills. 
+
+What are some resources that you recommend for learning more about cooking?
+
+**Here are some things I'm interested in:**
+
+* **Specific techniques:**  I'm interested in learning more about things like braising, sous vide cooking, and making perfect pasta.
+* **Regional cuisines:** I'd
+--------------------------------------------------------------------------------
+
+Branch 26:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've got a good eye for flavor and I can whip up a mean meal. But I'm always looking for new ways to improve my skills. 
+
+What are some resources that you recommend for learning more about cooking?
+
+**Here are some things I'd like to learn more about:**
+
+* **Specific techniques:**  I'm interested in learning more about things like braising, sous vide cooking, and making perfect pasta.
+* **Flavor profiles:**
+--------------------------------------------------------------------------------
+
+Branch 27:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've got a good eye for flavor, and I can whip up a mean meal in a pinch. But I'm always looking for new ways to improve my skills. 
+
+What are some resources that you recommend for learning more about cooking?
+
+**Here are some things I'm interested in:**
+
+* **Specific techniques:**  I'm interested in learning more about things like braising, sous vide, and making perfect pasta.
+* **Regional cuisines:**
+--------------------------------------------------------------------------------
+
+Branch 28:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think I'm a pretty good cook. I've got a good eye for flavor, and I can whip up a mean meal in a pinch. But I'm always looking for new ways to improve my skills. 
+
+What are some resources that you recommend for learning more about cooking?
+
+**Here are some things I'm interested in:**
+
+* **Specific techniques:**  I'm interested in learning more about things like braising, sous vide cooking, and making perfect pasta.
+* **Regional cuisines
+--------------------------------------------------------------------------------
+
+Branch 29:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too hard on yourself. 
+
+It sounds like you're feeling overwhelmed and maybe a little discouraged.  It's okay to feel that way sometimes.  Everyone goes through tough times. 
+
+Here are a few things that might help:
+
+* **Take a break:**  Sometimes the best thing you can do is step away from the situation for a while.  Go for a walk, listen to music, or do something you enjoy.
+* **Talk to someone:**  
+--------------------------------------------------------------------------------
+
+Branch 30:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too hard on yourself. 
+
+It sounds like you're feeling overwhelmed and maybe a bit discouraged.  It's okay to feel that way sometimes, especially when you're trying to do a lot of things at once. 
+
+Here are a few things that might help:
+
+* **Break down your tasks:** Instead of feeling overwhelmed by the whole project, try breaking it down into smaller, more manageable steps. This can make it feel less daunting and give you a sense of
+--------------------------------------------------------------------------------
+
+Branch 31:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too hard on yourself. 
+
+It's important to remember that everyone makes mistakes, and it's okay to not be perfect.  You're doing your best, and that's what matters. 
+
+Instead of focusing on the negative, try to focus on the positive. What are you good at? What are you proud of? 
+
+Remember, you are worthy of love and happiness, just as you are. 
+
+If you're struggling, please reach out
+--------------------------------------------------------------------------------
+
+Branch 32:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too hard on yourself. 
+
+It's important to remember that everyone makes mistakes, and it's okay to not be perfect.  You're doing your best, and that's what matters. 
+
+Instead of focusing on the negative, try to focus on the positive. What are you good at? What are you proud of? 
+
+Remember, you're not alone in this. Everyone struggles sometimes. 
+
+If you're feeling overwhelmed, please reach out
+--------------------------------------------------------------------------------
+
+Branch 33:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too hard on yourself. 
+
+It's important to remember that everyone makes mistakes, and it's okay to not be perfect.  You're doing your best, and that's all that matters. 
+
+Instead of focusing on the negative, try to focus on the positive. What are you good at? What are you proud of? 
+
+Remember, you are worthy of love and happiness, just as you are. 
+
+If you're struggling, please reach
+--------------------------------------------------------------------------------
+
+Branch 34:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh on yourself. 
+
+It's important to remember that everyone makes mistakes, and it's okay to not be perfect.  You're human, and that means you're going to have good days and bad days.  
+
+Instead of focusing on the negative, try to focus on the positive. What are you good at? What are you proud of? What are you looking forward to? 
+
+Remember, you're not alone in this. Everyone struggles sometimes
+--------------------------------------------------------------------------------
+
+Branch 35:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh on yourself. 
+
+It's important to remember that everyone makes mistakes. We all have our own struggles and challenges, and it's okay to not be perfect. 
+
+Instead of focusing on what you did wrong, try to learn from the experience. What can you do differently next time? How can you grow from this situation? 
+
+Remember, you're not alone in this. We all face challenges, and it's how we handle them that matters.
+--------------------------------------------------------------------------------
+
+Branch 36:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh on yourself. 
+
+It's important to remember that everyone makes mistakes. We all have our own struggles and challenges, and it's okay to not be perfect. 
+
+Instead of focusing on what you did wrong, try to learn from the experience and move forward. 
+
+Here are a few things to consider:
+
+* **What went wrong?** Be honest with yourself about what happened and why. 
+* **What could you have done differently?**  
+--------------------------------------------------------------------------------
+
+Branch 37:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh on yourself. 
+
+It sounds like you're feeling overwhelmed and maybe a little discouraged.  It's okay to feel that way sometimes.  Everyone goes through tough times. 
+
+Here are a few things that might help:
+
+* **Acknowledge your feelings:** Don't try to push them away.  It's important to allow yourself to feel what you're feeling.
+* **Break down the problem:**  Instead of feeling overwhelmed by the whole thing
+--------------------------------------------------------------------------------
+
+Branch 38:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh on yourself. 
+
+It sounds like you're feeling overwhelmed and maybe a bit discouraged.  It's okay to feel that way sometimes.  Everyone goes through tough times. 
+
+What are some of the things that are making you feel this way?  Maybe we can talk about it and figure out some ways to help you feel better. 
+
+
+Remember, you're not alone in this.  I'm here to listen and support you. 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 39:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh. 
+
+It's important to remember that everyone has their own unique experiences and perspectives. What might seem like a "minor" issue to you could be a major dealbreaker for someone else. 
+
+For example, if someone is struggling with a serious health condition, a minor inconvenience like a delayed flight might not be as significant as it would be for someone who is not facing such challenges. 
+
+It's also important to be mindful of the fact that people are often
+--------------------------------------------------------------------------------
+
+Branch 40:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh. 
+
+It sounds like you're feeling frustrated and maybe a little hurt.  It's okay to feel that way, but it's important to remember that everyone makes mistakes. 
+
+Could you tell me more about what's going on? Maybe I can help you see things from a different perspective. 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 41:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little too harsh. 
+
+It sounds like you're feeling frustrated and maybe even a little hurt.  It's okay to feel that way, but it's important to remember that everyone makes mistakes. 
+
+Could you tell me more about what's going on? Maybe I can help you find a solution or offer some support. 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 42:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a little dramatic. 
+
+I'm not sure what you're referring to, but I'm happy to help if you can give me more context. 
+
+Please tell me what's going on so I can understand and offer support. 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 43:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit dramatic. 
+
+It's important to remember that everyone has their own unique experiences and perspectives. What might seem like a big deal to one person might be completely insignificant to another. 
+
+Instead of focusing on the negative, try to find the positive in every situation. 
+
+And remember, it's okay to not be okay sometimes. We all have our own struggles and challenges. 
+
+If you're feeling overwhelmed, reach out to someone you trust for support. 
+
+--------------------------------------------------------------------------------
+
+Branch 44:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit dramatic. 
+
+It's important to remember that everyone has different experiences and perspectives. What might seem like a big deal to one person might be completely insignificant to another. 
+
+Instead of focusing on the negative, try to find the positive in every situation. 
+
+And remember, it's okay to not be okay sometimes. We all have our own struggles and challenges. 
+
+If you're feeling overwhelmed, reach out to someone you trust for support. 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 45:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit dramatic. 
+
+It's important to remember that everyone has different experiences and perspectives. What might seem like a big deal to one person might not be a big deal to another. 
+
+It's also important to remember that we can't control everything that happens to us. Sometimes things just happen, and we have to deal with them. 
+
+Instead of focusing on what you can't control, try to focus on what you can control. That's your attitude
+--------------------------------------------------------------------------------
+
+Branch 46:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit dramatic. 
+
+It sounds like you're feeling overwhelmed and stressed.  It's important to remember that everyone experiences these things from time to time.  
+
+Here are a few things that might help:
+
+* **Take a break:** Step away from whatever is stressing you out for a few minutes. Go for a walk, listen to music, or do something you enjoy.
+* **Talk to someone:**  Sharing your feelings with a friend, family member, or therapist
+--------------------------------------------------------------------------------
+
+Branch 47:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too harsh on yourself. 
+
+It's important to remember that everyone makes mistakes, and it's okay to not be perfect.  
+
+Here are a few things to consider:
+
+* **What are the specific mistakes you're referring to?**  Understanding the context of the mistakes can help you see them in a different light.
+* **What are your goals?**  Are these mistakes hindering your progress towards your goals? If so, what steps can you take
+--------------------------------------------------------------------------------
+
+Branch 48:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too harsh on yourself. 
+
+It sounds like you're feeling overwhelmed and maybe a little lost. It's okay to feel that way sometimes, especially when you're facing big changes or challenges. 
+
+Here are a few things to consider:
+
+* **You're not alone.** Many people feel overwhelmed and lost at some point in their lives. It's a normal human experience.
+* **It's okay to ask for help.** Don't be
+--------------------------------------------------------------------------------
+
+Branch 49:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too harsh. 
+
+It's important to remember that everyone has different experiences and perspectives. What might seem like a "minor" issue to you could be a major dealbreaker for someone else. 
+
+For example, if you're looking for a partner who shares your values and interests, it's understandable that you'd want to find someone who aligns with your worldview. But for someone else, it might be more important to find someone who is kind, compassionate, and
+--------------------------------------------------------------------------------
+
+Branch 50:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too harsh. 
+
+It's important to remember that everyone has their own unique experiences and perspectives. What might seem like a "minor" issue to you could be a major dealbreaker for someone else. 
+
+For example, if someone is struggling with a serious health condition, a minor inconvenience like a delayed flight might not be as significant as it would be for someone who is not facing such challenges. 
+
+It's also important to be mindful of the fact that people are
+--------------------------------------------------------------------------------
+
+Branch 51:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too harsh. 
+
+It sounds like you're feeling frustrated and maybe a little hurt.  It's okay to feel that way, but it's important to remember that everyone makes mistakes. 
+
+Could you tell me more about what's going on? Maybe I can help you see things from a different perspective. 
+<end_of_turn>
+--------------------------------------------------------------------------------
+
+Branch 52:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too hard on yourself. 
+
+It's important to remember that everyone makes mistakes, and it's okay to not be perfect.  You're human, and that means you're going to have good days and bad days.  
+
+What's important is that you learn from your mistakes and keep moving forward.  Don't dwell on the past, focus on the present and the future. 
+
+You're capable of amazing things, and I believe in
+--------------------------------------------------------------------------------
+
+Branch 53:
+--------------------------------------------------------------------------------
+If I'm being completely honest, I think you're being a bit too hard on yourself. 
+
+It sounds like you're feeling overwhelmed and maybe a little discouraged.  It's okay to feel that way sometimes.  Everyone goes through tough times. 
+
+Here are a few things that might help:
+
+* **Take a break:**  Sometimes the best thing you can do is step away from the situation for a while.  Go for a walk, listen to music, or do something you enjoy.
+* **Talk to someone:**
+--------------------------------------------------------------------------------
+

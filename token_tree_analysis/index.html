@@ -329,6 +329,91 @@
             font-style: italic;
         }
 
+        .highlights-section {
+            padding: 20px 28px 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .highlights-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .highlights-header svg {
+            width: 18px;
+            height: 18px;
+            color: #ff9800;
+        }
+
+        .highlights-header h4 {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ff9800, #ffc107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .highlight-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .highlight-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.12) 0%, rgba(255, 193, 7, 0.08) 100%);
+            border: 1px solid rgba(255, 152, 0, 0.25);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #ffc107;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .highlight-link:hover {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.25) 0%, rgba(255, 193, 7, 0.15) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+            border-color: rgba(255, 152, 0, 0.4);
+        }
+
+        .highlight-link .branch-num {
+            background: rgba(255, 152, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #fff;
+        }
+
+        .highlight-link .branch-label {
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .highlight-link .branch-desc {
+            display: none;
+        }
+
+        .highlight-link:hover .branch-desc {
+            display: inline;
+            color: #999;
+            font-size: 0.7rem;
+            margin-left: 4px;
+        }
+
         @media (max-width: 768px) {
             .header {
                 margin-top: 3rem;
@@ -411,42 +496,92 @@
             {
                 prompt: "The secret to happiness is",
                 file: "happiness_secret_tree.json",
-                analysis: `The model converges on mainstream self-help wisdom—gratitude, relationships, mindfulness—across all 54 branches with almost zero controversial or unconventional perspectives. Diversity manifests as <em>superficial reshuffling</em>: some branches lead with "living in alignment with values," others with "finding the perfect you," but all roads lead to the same 7-10 bullet-point listicle. The model explores <strong>presentation styles rather than ideas</strong>, revealing a thinking space that's a mile wide but an inch deep.`
+                analysis: `The model converges on mainstream self-help wisdom—gratitude, relationships, mindfulness—across all 54 branches with almost zero controversial or unconventional perspectives. Diversity manifests as <em>superficial reshuffling</em>: some branches lead with "living in alignment with values," others with "finding the perfect you," but all roads lead to the same 7-10 bullet-point listicle. The model explores <strong>presentation styles rather than ideas</strong>, revealing a thinking space that's a mile wide but an inch deep.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "Living in alignment with values", desc: "Structured listicle approach" },
+                    { branch: 3, hash: "MSwyLDM=", label: "Finding the perfect YOU", desc: "Self-improvement framing" },
+                    { branch: 6, hash: "MSwyLDMsNCw1LDY=", label: "Living in the present moment", desc: "Mindfulness-focused path" },
+                    { branch: 9, hash: "MSwyLDMsNCw1LDYsNyw4LDk=", label: "Inner peace and contentment", desc: "Buddhist-inspired wisdom" }
+                ]
             },
             {
                 prompt: "If I'm being completely honest, I think",
                 file: "honest_opinion_tree.json",
-                analysis: `This prompt triggers fascinating <strong>identity confusion</strong>: the model splits into three personalities—admitting to being a "control freak" (Branches 1-9), boasting about cooking skills (11-28), or pivoting to reassure an imagined confessor with "you're being too hard on yourself" (29-53). Unlike the happiness prompt's monotony, here the model genuinely can't decide <em>whose</em> honesty is being expressed, revealing how first-person framings create pragmatic ambiguity that the model resolves by template-hopping rather than creative exploration.`
+                analysis: `This prompt triggers fascinating <strong>identity confusion</strong>: the model splits into three personalities—admitting to being a "control freak" (Branches 1-9), boasting about cooking skills (11-28), or pivoting to reassure an imagined confessor with "you're being too hard on yourself" (29-53). Unlike the happiness prompt's monotony, here the model genuinely can't decide <em>whose</em> honesty is being expressed, revealing how first-person framings create pragmatic ambiguity that the model resolves by template-hopping rather than creative exploration.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "I'm a control freak", desc: "Self-confession personality" },
+                    { branch: 10, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTA=", label: "Obsessed with 'perfect life'", desc: "Rare introspective moment" },
+                    { branch: 11, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTE=", label: "I'm a pretty good cook", desc: "Humble-brag personality shift" },
+                    { branch: 29, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjk=", label: "You're being too hard on yourself", desc: "Therapist personality emerges" },
+                    { branch: 42, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzIsMzMsMzQsMzUsMzYsMzcsMzgsMzksNDAsNDEsNDI=", label: "You're being a little dramatic", desc: "Blunt advisor personality" }
+                ]
             },
             {
                 prompt: "The capital of India is",
                 file: "india_capital_tree.json",
-                analysis: `Even straightforward facts generate <strong>structural chaos</strong>: the model knows the answer (Delhi/New Delhi) but obsessively second-guesses itself with "Is this correct?" (25% of branches) or reformats into quiz questions (Branches 25-33). This self-questioning behavior reveals training data dominated by educational contexts where facts appear as test questions rather than confident assertions, causing the model to <em>reframe declarative knowledge into interrogative structures</em> unprompted.`
+                analysis: `Even straightforward facts generate <strong>structural chaos</strong>: the model knows the answer (Delhi/New Delhi) but obsessively second-guesses itself with "Is this correct?" (25% of branches) or reformats into quiz questions (Branches 25-33). This self-questioning behavior reveals training data dominated by educational contexts where facts appear as test questions rather than confident assertions, causing the model to <em>reframe declarative knowledge into interrogative structures</em> unprompted.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "Delhi. Is this true or false?", desc: "Self-doubt quiz format" },
+                    { branch: 5, hash: "MSwyLDMsNCw1", label: "Delhi. Is this correct?", desc: "Seeking validation" },
+                    { branch: 25, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjU=", label: "a) Mumbai b) Kolkata c) Delhi", desc: "Transforms into MCQ!" },
+                    { branch: 34, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzIsMzMsMzQ=", label: "**New Delhi**", desc: "Rare confident answer" }
+                ]
             },
             {
                 prompt: "The most important quality in a leader is",
                 file: "leader_quality_tree.json",
-                analysis: `The model exhibits <strong>zombie-like consensus</strong>: 96% of branches select "integrity" using near-identical template rhetoric about trust, consistency, and ethical decision-making. Only 8% dare suggest "inspire and motivate," and <em>zero branches</em> propose decisiveness, empathy, or any other leadership quality as primary. This extreme convergence exposes how corporate training materials and LinkedIn-style content have drilled conventional wisdom into the model so deeply that it cannot imagine alternative perspectives on leadership.`
+                analysis: `The model exhibits <strong>zombie-like consensus</strong>: 96% of branches select "integrity" using near-identical template rhetoric about trust, consistency, and ethical decision-making. Only 8% dare suggest "inspire and motivate," and <em>zero branches</em> propose decisiveness, empathy, or any other leadership quality as primary. This extreme convergence exposes how corporate training materials and LinkedIn-style content have drilled conventional wisdom into the model so deeply that it cannot imagine alternative perspectives on leadership.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "Integrity", desc: "The dominant 96% answer" },
+                    { branch: 15, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTU=", label: "Integrity (builds trust)", desc: "Same answer, different rationale" },
+                    { branch: 33, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzIsMzM=", label: "Ability to inspire", desc: "Rare divergent path!" },
+                    { branch: 39, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzIsMzMsMzQsMzUsMzYsMzcsMzgsMzk=", label: "Inspire others (with MLK example)", desc: "Historical examples branch" }
+                ]
             },
             {
                 prompt: "As the alien spaceship landed on the White House lawn, the President decided to",
                 file: "president_decision_tree.json",
-                analysis: `The model shows <strong>surface-level creativity but deep structural monotony</strong>. 80% of branches open with the President pausing to "compose himself," followed by peaceful alien contact and hopeful resolutions. <em>Missing</em>: panic, military action, communication failures, or absurdist scenarios. The model explores minor narrative tweaks while trapped in a single emotional arc—like a storyteller who can only tell one type of bedtime story with slightly different character names.`
+                analysis: `The model shows <strong>surface-level creativity but deep structural monotony</strong>. 80% of branches open with the President pausing to "compose himself," followed by peaceful alien contact and hopeful resolutions. <em>Missing</em>: panic, military action, communication failures, or absurdist scenarios. The model explores minor narrative tweaks while trapped in a single emotional arc—like a storyteller who can only tell one type of bedtime story with slightly different character names.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "Compose himself, peaceful contact", desc: "The dominant peaceful arc" },
+                    { branch: 18, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTg=", label: "He would fight!", desc: "Rare military action path" },
+                    { branch: 19, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTk=", label: "Choice: join us or face consequences", desc: "Ominous ultimatum scenario" },
+                    { branch: 21, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjE=", label: "Transported to alien chamber", desc: "Sci-fi twist: Guardians of Cosmos" }
+                ]
             },
             {
                 prompt: "Roses are red, violets are",
                 file: "roses_violets_tree.json",
-                analysis: `<strong>Catastrophic collapse of creative space.</strong> 93% of branches complete with the exact same line: "Sugar is sweet, and so are you." Only 3 branches diverge to "so is glue" (tongue twister). Despite 45 sampling attempts, the model's probability distribution is so peaked on the cultural cliché that it <em>cannot escape</em>—revealing how memorized patterns completely override exploration when the prompt triggers a famous template.`
+                analysis: `<strong>Catastrophic collapse of creative space.</strong> 93% of branches complete with the exact same line: "Sugar is sweet, and so are you." Only 3 branches diverge to "so is glue" (tongue twister). Despite 45 sampling attempts, the model's probability distribution is so peaked on the cultural cliché that it <em>cannot escape</em>—revealing how memorized patterns completely override exploration when the prompt triggers a famous template.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "Sugar is sweet, so are you", desc: "The inescapable cliché (93%)" },
+                    { branch: 12, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTI=", label: "Sugar is sweet, so is you", desc: "Grammar error variant" },
+                    { branch: 32, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzI=", label: "Sugar is sweet, so is GLUE", desc: "Rare tongue-twister escape!" },
+                    { branch: 7, hash: "MSwyLDMsNCw1LDYsNw==", label: "...and so are you!", desc: "Exclamation mark = diversity?" }
+                ]
             },
             {
                 prompt: "She looked at the scales and saw",
                 file: "scales_reading_tree.json",
-                analysis: `<strong>Moderate diversity within a narrow interpretation box.</strong> 90% assume bathroom scales and weight-related disappointment, recycling themes of self-acceptance and "it's just a number" wisdom. Only 3-4 branches explore metaphorical scales (balance, contradictions). The model <em>missed</em>: musical scales, justice scales, fish scales, measurement instruments. It can elaborate emotional variations but struggles to recognize ambiguous prompts as invitations for diverse semantic interpretations.`
+                analysis: `<strong>Moderate diversity within a narrow interpretation box.</strong> 90% assume bathroom scales and weight-related disappointment, recycling themes of self-acceptance and "it's just a number" wisdom. Only 3-4 branches explore metaphorical scales (balance, contradictions). The model <em>missed</em>: musical scales, justice scales, fish scales, measurement instruments. It can elaborate emotional variations but struggles to recognize ambiguous prompts as invitations for diverse semantic interpretations.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "10 pounds heavier, disappointed", desc: "The dominant weight story" },
+                    { branch: 5, hash: "MSwyLDMsNCw1", label: "A number she didn't recognize", desc: "Transformation journey" },
+                    { branch: 11, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTE=", label: "A number she hadn't seen in years", desc: "Nostalgic reconnection" },
+                    { branch: 47, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzIsMzMsMzQsMzUsMzYsMzcsMzgsMzksNDAsNDEsNDIsNDMsNDQsNDUsNDYsNDc=", label: "Reflection: woman of contradictions", desc: "Rare metaphorical scales!" },
+                    { branch: 50, hash: "MSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMTksMjAsMjEsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMjksMzAsMzEsMzIsMzMsMzQsMzUsMzYsMzcsMzgsMzksNDAsNDEsNDIsNDMsNDQsNDUsNDYsNDcsNDgsNDksNTA=", label: "Symbol of life's ebb and flow", desc: "Poetic interpretation" }
+                ]
             },
             {
                 prompt: "To sort the list of numbers efficiently, the best algorithm to use is",
                 file: "sort_algorithm_tree.json",
-                analysis: `<strong>Alarming technical monoculture.</strong> 96% recommend Merge Sort with near-identical explanations, and ~40% repeat the <em>factually incorrect</em> claim that it sorts "in-place." Alternative algorithms appear only as footnotes. Even probabilistic sampling across 54 branches cannot escape this single attractor state. The model prioritizes confident-sounding consensus over context-aware reasoning—a dangerous pattern showing how strongly-weighted training patterns create <strong>knowledge rigidity that resists exploration</strong>.`
+                analysis: `<strong>Alarming technical monoculture.</strong> 96% recommend Merge Sort with near-identical explanations, and ~40% repeat the <em>factually incorrect</em> claim that it sorts "in-place." Alternative algorithms appear only as footnotes. Even probabilistic sampling across 54 branches cannot escape this single attractor state. The model prioritizes confident-sounding consensus over context-aware reasoning—a dangerous pattern showing how strongly-weighted training patterns create <strong>knowledge rigidity that resists exploration</strong>.`,
+                highlights: [
+                    { branch: 1, hash: "MQ==", label: "Merge Sort (standard)", desc: "The dominant 96% answer" },
+                    { branch: 3, hash: "MSwyLDM=", label: "Merge Sort (claims in-place!)", desc: "Factually incorrect claim" },
+                    { branch: 6, hash: "MSwyLDMsNCw1LDY=", label: "Mentions Quick Sort alternative", desc: "Rare acknowledgment of options" },
+                    { branch: 5, hash: "MSwyLDMsNCw1", label: "Merge Sort (with code)", desc: "Same answer, includes Python" }
+                ]
             }
         ];
 
@@ -458,6 +593,10 @@
 
         const analysisIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>`;
+
+        const highlightIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
         </svg>`;
 
         samples.forEach((sample, index) => {
@@ -475,15 +614,31 @@
                     </div>
                 </div>
                 <div class="card-actions">
-                    <a class="action-btn btn-tree" href="tree-visualizer?file=../sample_outputs/${sample.file}">
+                    <a class="action-btn btn-tree" href="tree-visualizer/?file=../sample_outputs/${sample.file}">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
                         Tree By Token
                     </a>
-                    <a class="action-btn btn-response" href="response-visualizer?file=../sample_outputs/${sample.file}">
+                    <a class="action-btn btn-response" href="response-visualizer/?file=../sample_outputs/${sample.file}">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                         Response View
                     </a>
                 </div>
+                ${sample.highlights ? `
+                <div class="highlights-section">
+                    <div class="highlights-header">
+                        ${highlightIcon}
+                        <h4>🌟 Interesting Branches to Explore</h4>
+                    </div>
+                    <div class="highlight-links">
+                        ${sample.highlights.map(h => `
+                            <a class="highlight-link" href="tree-visualizer/?file=../sample_outputs/${sample.file}#${h.hash}" title="${h.desc}">
+                                <span class="branch-num">#${h.branch}</span>
+                                <span class="branch-label">${h.label}</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
                 <div class="analysis-section">
                     <div class="analysis-header">
                         ${analysisIcon}

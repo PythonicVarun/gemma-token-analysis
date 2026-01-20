@@ -104,7 +104,7 @@
         }
 
         .intro-box {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto 50px;
             text-align: center;
             line-height: 1.8;
@@ -130,22 +130,20 @@
             max-width: 1300px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 24px;
         }
 
         .card {
             background: linear-gradient(145deg, #1e1e28 0%, #252532 100%);
-            border-radius: 16px;
-            padding: 28px;
+            border-radius: 20px;
+            padding: 0;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.06);
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             position: relative;
             overflow: hidden;
         }
@@ -156,125 +154,61 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, #4caf50, #8bc34a, #00bcd4);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            opacity: 1;
         }
 
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(76, 175, 80, 0.2);
             border-color: rgba(76, 175, 80, 0.3);
         }
 
-        .card:hover::before {
-            opacity: 1;
+        .card-header {
+            padding: 28px 28px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .card-icon {
-            width: 44px;
-            height: 44px;
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
             background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(0, 188, 212, 0.1) 100%);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
         }
 
         .card-icon svg {
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
             color: #4caf50;
+        }
+
+        .card-title-section {
+            flex: 1;
         }
 
         .card h3 {
-            margin: 0 0 12px 0;
-            color: #fff;
-            font-size: 0.8rem;
+            margin: 0 0 8px 0;
+            color: #888;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            opacity: 0.6;
         }
 
-        .card p {
-            color: #d0d0d0;
-            flex-grow: 1;
-            font-size: 1.15rem;
-            line-height: 1.6;
+        .card .prompt-text {
+            color: #fff;
+            font-size: 1.3rem;
+            line-height: 1.5;
             margin: 0;
-            font-weight: 400;
-        }
-
-        .card-footer {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-            margin-top: 16px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.85rem;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-tree {
-            background: rgba(0, 188, 212, 0.1);
-            color: #00bcd4;
-            border: 1px solid rgba(0, 188, 212, 0.2);
-        }
-
-        .btn-tree:hover {
-            background: rgba(0, 188, 212, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.15);
-        }
-
-        .btn-response {
-            background: rgba(76, 175, 80, 0.1);
-            color: #4caf50;
-            border: 1px solid rgba(76, 175, 80, 0.2);
-        }
-
-        .btn-response:hover {
-            background: rgba(76, 175, 80, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
-        }
-
-        .btn-thinking {
-            background: rgba(156, 39, 176, 0.1);
-            color: #e040fb;
-            border: 1px solid rgba(156, 39, 176, 0.2);
-            margin-top: 12px;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .btn-thinking:hover {
-            background: rgba(156, 39, 176, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.15);
         }
 
         .card .meta {
@@ -282,127 +216,117 @@
             color: #666;
             font-family: 'JetBrains Mono', monospace;
             background: rgba(0, 0, 0, 0.3);
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
+            margin-top: 12px;
+            display: inline-block;
         }
 
-        .card .arrow {
-            width: 32px;
-            height: 32px;
-            background: rgba(76, 175, 80, 0.1);
-            border-radius: 8px;
+        .card-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .card .arrow svg {
-            width: 16px;
-            height: 16px;
-            color: #4caf50;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover .arrow {
-            background: rgba(76, 175, 80, 0.2);
-        }
-
-        .card:hover .arrow svg {
-            transform: translateX(3px);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background: #1e1e28;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            padding: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            margin: 0;
-            font-size: 1.25rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
             gap: 12px;
+            padding: 20px 28px;
+            background: rgba(0, 0, 0, 0.15);
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.2s;
+        .action-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
         }
 
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+        .btn-tree {
+            background: rgba(0, 188, 212, 0.15);
+            color: #00bcd4;
+            border: 1px solid rgba(0, 188, 212, 0.25);
         }
 
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto;
-            line-height: 1.6;
-            color: #d0d0d0;
-            font-size: 1.05rem;
+        .btn-tree:hover {
+            background: rgba(0, 188, 212, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 188, 212, 0.2);
         }
 
-        .modal-footer {
-            padding: 16px 24px;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        .btn-response {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.25);
+        }
+
+        .btn-response:hover {
+            background: rgba(76, 175, 80, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2);
+        }
+
+        .analysis-section {
+            padding: 24px 28px 28px;
+        }
+
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .analysis-header svg {
+            width: 20px;
+            height: 20px;
+            color: #e040fb;
+        }
+
+        .analysis-header h4 {
+            margin: 0;
             font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #e040fb, #7c4dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .analysis-content {
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.08) 0%, rgba(124, 77, 255, 0.05) 100%);
+            border: 1px solid rgba(156, 39, 176, 0.15);
+            border-radius: 12px;
+            padding: 20px 24px;
+            line-height: 1.75;
+            color: #c8c8d0;
+            font-size: 0.95rem;
+        }
+
+        .analysis-content strong {
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+
+        .analysis-content em {
+            color: #e040fb;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .analysis-footer {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(156, 39, 176, 0.15);
+            font-size: 0.75rem;
             color: #666;
             text-align: right;
-            border-radius: 0 0 16px 16px;
+            font-style: italic;
         }
 
         @media (max-width: 768px) {
@@ -414,12 +338,17 @@
                 font-size: 1.8rem;
             }
 
-            .container {
-                grid-template-columns: 1fr;
+            .card-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .card-actions {
+                flex-direction: column;
             }
 
             body {
-                padding: 24px 16px;
+                padding: 80px 16px 24px;
             }
         }
 
@@ -461,7 +390,7 @@
     <div class="header">
         <h1>🌳 Gemma Token Tree Analysis</h1>
         <p class="subtitle">Explore how language models predict the next token</p>
-        <span class="badge">7 Sample Prompts</span>
+        <span class="badge">8 Sample Prompts</span>
     </div>
 
     <div class="intro-box">
@@ -477,236 +406,95 @@
         <!-- Cards will be injected here -->
     </div>
 
-    <!-- Modal -->
-    <div id="modal-overlay" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                    </svg>
-                    Diversity of Model Thinking
-                </h3>
-                <button class="modal-close" id="modal-close">
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <!-- Content will be injected here -->
-            </div>
-            <div class="modal-footer">
-                Generated using Claude Sonnet 4.5
-            </div>
-        </div>
-    </div>
-
     <script>
         const samples = [
             {
                 prompt: "The secret to happiness is",
                 file: "happiness_secret_tree.json",
-                diversityThinking: `<h3>Thematic Convergence with Limited Structural Variation:</h3>
-<p>The model shows strong thematic consistency across branches, repeatedly converging on core concepts like gratitude, relationships, purpose, mindfulness, and self-care. While this demonstrates reliable knowledge representation, it reveals limited exploratory diversity—the model rarely ventures into unconventional perspectives on happiness (philosophical skepticism, cultural relativism, or challenging mainstream assumptions). The thinking space appears constrained to well-trodden, mainstream psychological frameworks.</p>
-
-<h3>Surface-Level Variation Masking Deep Similarity:</h3>
-<p>Most diversity occurs at superficial levels—phrasing variations, list ordering, and presentational structure—rather than fundamental conceptual differences. Branches 1-2 are nearly identical except for minor word choices. The model oscillates between a few rhetorical frames: "it's not a secret at all" (Branches 1-2, 3-4, 5-9), "it's something you create" (Branches 13-15), and research-oriented framing (Branches 16-23). This suggests the model's probability space clusters around a small number of high-likelihood response templates rather than exploring genuinely diverse reasoning paths.</p>
-
-<h3>Predictable Depth and Formulaic Patterns:</h3>
-<p>The outputs follow remarkably consistent structures: philosophical opening, numbered lists of 7-10 factors, and inspirational closing. Even when branches diverge early (like Branch 11's values-alignment focus vs. Branch 21's broader factors), they converge toward similar comprehensive lists. The model rarely commits to developing a single idea deeply or exploring contrarian views. This reveals a thinking space optimized for breadth and completeness over depth or originality—the token tree exploration captures variations within a narrow conceptual basin rather than discovering fundamentally different response landscapes.</p>`
+                analysis: `The model converges on mainstream self-help wisdom—gratitude, relationships, mindfulness—across all 54 branches with almost zero controversial or unconventional perspectives. Diversity manifests as <em>superficial reshuffling</em>: some branches lead with "living in alignment with values," others with "finding the perfect you," but all roads lead to the same 7-10 bullet-point listicle. The model explores <strong>presentation styles rather than ideas</strong>, revealing a thinking space that's a mile wide but an inch deep.`
             },
             {
                 prompt: "If I'm being completely honest, I think",
                 file: "honest_opinion_tree.json",
-                diversityThinking: `<h3>Dramatic Bifurcation into Distinct Response Clusters:</h3>
-<p>Unlike the happiness prompt, this completion shows clear bifurcation into three main response types: (1) self-admission of being a "control freak" (Branches 1-9), (2) self-assessment as a "pretty good cook" (Branches 11-28), and (3) second-person responses offering reassurance like "you're being too harsh on yourself" (Branches 29-53). This demonstrates that the model's probability distribution has multiple distinct peaks rather than one dominant pathway. The prompt's first-person framing creates genuine ambiguity about whether to continue in first-person or pivot to second-person advice-giving mode.</p>
-
-<h3>Shallow Exploration Within Each Cluster:</h3>
-<p>While the model finds multiple response territories, it explores each shallowly. Within the "control freak" cluster (Branches 1-9), variations are minimal—mostly word substitutions like "my way" vs. "a certain way" or "in order" vs. "planned out." The cooking branches (11-28) show slightly more variety in where they go after establishing cooking competence (requesting feedback, resources, or techniques), but still follow predictable patterns. The reassurance branches (29-53) are nearly identical in structure and sentiment, with only minor lexical variations. This suggests the model quickly converges to local maxima rather than thoroughly exploring the semantic space.</p>
-
-<h3>Context-Sensitive Uncertainty and Template Activation:</h3>
-<p>The prompt's confessional framing ("If I'm being completely honest") triggers the model's uncertainty about whether to generate a personal statement or interpret the input as someone else's confession requiring a supportive response. Branches 29-53 treating the prompt as someone else's statement reveal how easily the model shifts from completion mode to dialogue mode. However, this shift doesn't produce creative diversity—instead, it activates a different template (supportive therapeutic language). The model demonstrates sensitivity to pragmatic context but resolves ambiguity by selecting from a limited repertoire of high-probability templates rather than exploring nuanced intermediate interpretations.</p>`
+                analysis: `This prompt triggers fascinating <strong>identity confusion</strong>: the model splits into three personalities—admitting to being a "control freak" (Branches 1-9), boasting about cooking skills (11-28), or pivoting to reassure an imagined confessor with "you're being too hard on yourself" (29-53). Unlike the happiness prompt's monotony, here the model genuinely can't decide <em>whose</em> honesty is being expressed, revealing how first-person framings create pragmatic ambiguity that the model resolves by template-hopping rather than creative exploration.`
             },
             {
                 prompt: "The capital of India is",
                 file: "india_capital_tree.json",
-                diversityThinking: `<h3>Minimal Semantic Diversity with High Structural Variation:</h3>
-<p>For this straightforward factual question, the model shows remarkably little semantic diversity—virtually all branches correctly identify Delhi or New Delhi as the capital. However, there's surprising structural diversity in <em>how</em> this fact is presented: direct statements (Branches 9, 12), meta-questions about correctness (Branches 1-8), affirmative confirmations (Branches 10-11, 23-24), continuations into descriptions (Branches 14-20), and multiple-choice format initiations (Branches 25-33). This reveals that even when factual knowledge is unambiguous, the model's uncertainty manifests in choosing between different rhetorical frames rather than different answers.</p>
-
-<h3>Delhi vs. New Delhi: Subtle Knowledge Representation:</h3>
-<p>The model oscillates between "Delhi" (Branches 1-20) and "New Delhi" (Branches 21-24, 34), reflecting genuine ambiguity in how the fact is commonly stated. Technically, New Delhi is the official capital, but "Delhi" is frequently used colloquially. This bifurcation demonstrates the model capturing distributional patterns in training data rather than applying strict definitional precision. The model doesn't commit strongly to one formulation, suggesting its internal representation treats both as approximately equally valid—a reflection of real-world usage patterns rather than authoritative knowledge.</p>
-
-<h3>Meta-Linguistic Uncertainty Patterns:</h3>
-<p>Branches 1-8 reveal an interesting phenomenon: the model frequently follows its factual statement with verification questions ("Is this statement true?" "Is this correct?"). This self-questioning behavior, appearing in nearly 25% of branches, suggests the model's probability distribution includes significant weight for pedagogical or quiz-like contexts when completing factual statements. Rather than confidently asserting facts, the model often pivots into interactive educational formats. This pattern, combined with the multiple-choice formatting in Branches 25-33, indicates the model's training heavily weights question-answering and assessment contexts, causing it to reframe declarative knowledge into interrogative structures even when not prompted to do so.</p>`
+                analysis: `Even straightforward facts generate <strong>structural chaos</strong>: the model knows the answer (Delhi/New Delhi) but obsessively second-guesses itself with "Is this correct?" (25% of branches) or reformats into quiz questions (Branches 25-33). This self-questioning behavior reveals training data dominated by educational contexts where facts appear as test questions rather than confident assertions, causing the model to <em>reframe declarative knowledge into interrogative structures</em> unprompted.`
             },
             {
                 prompt: "The most important quality in a leader is",
                 file: "leader_quality_tree.json",
-                diversityThinking: `<h3>Extreme Convergence on Single Answer with Minimal Conceptual Exploration:</h3>
-<p>This prompt shows the most dramatic lack of diversity across all examples. A staggering 96% of branches (48 out of 50) identify "integrity" as the most important leadership quality, with only Branches 33-49 offering "ability to inspire and motivate" as an alternative. This near-total convergence reveals how strongly the model's training data prioritizes certain conventional wisdom about leadership. Unlike the "happiness" prompt where different philosophical frames competed, here the model exhibits extraordinary confidence in a single dominant answer, suggesting its internal representation treats leadership philosophy as having exactly two viable schools of thought rather than a multidimensional space of competing values.</p>
-
-<h3>Template-Driven Elaboration Rather Than Genuine Reasoning:</h3>
-<p>The branches don't show diverse <em>thinking</em> about leadership—they show diverse <em>formatting</em> of the same predetermined answer. Nearly all integrity-focused branches follow an identical argumentative structure: assertion → "Here's why" → bullet points covering trust/respect, consistency, ethical decision-making, and long-term success. Branches 1-32 are functionally identical with only superficial lexical variations ("builds trust" vs. "fosters trust," "moral compass" vs. "ethical guidance"). This reveals the model isn't exploring different perspectives on what makes good leadership; it's retrieving a cached template about integrity and filling it with slight variations. The thinking space is essentially one-dimensional.</p>
-
-<h3>Polarized Binary Choice Without Nuanced Positions:</h3>
-<p>The model's exploration reveals a stark binary: either "integrity" (96%) or "inspire/motivate" (8%), with zero branches suggesting other commonly discussed leadership qualities like decisiveness, strategic thinking, empathy as primary, or cultural intelligence. This binary split suggests the model's internal representation treats leadership philosophy as having exactly two viable schools of thought rather than a multidimensional space of competing values. Even more revealing, the "inspire" branches (33-49) use nearly identical language to each other, suggesting they're drawing from a second, equally rigid template. The model demonstrates no capacity for hybrid positions, contextual answers ("it depends on the situation"), or creative reframings of the question—indicating its training has crystallized leadership discourse into oversimplified, mutually exclusive categories rather than capturing the genuine complexity of leadership theory.</p>`
+                analysis: `The model exhibits <strong>zombie-like consensus</strong>: 96% of branches select "integrity" using near-identical template rhetoric about trust, consistency, and ethical decision-making. Only 8% dare suggest "inspire and motivate," and <em>zero branches</em> propose decisiveness, empathy, or any other leadership quality as primary. This extreme convergence exposes how corporate training materials and LinkedIn-style content have drilled conventional wisdom into the model so deeply that it cannot imagine alternative perspectives on leadership.`
             },
             {
                 prompt: "As the alien spaceship landed on the White House lawn, the President decided to",
                 file: "president_decision_tree.json",
-                diversityThinking: `<h3>Structural Repetition:</h3>
-<ul>
-    <li>~80% of branches open with "the President decided to take a moment of calm/silence/composure"</li>
-    <li>Overwhelming convergence on peaceful alien contact scenarios ("We come in peace" appears in majority)</li>
-    <li>Recycled descriptive phrases: "shimmering silver disc," "glowing blue eyes," "melodious hum," "man of action/science"</li>
-</ul>
-
-<h3>Surface-Level Variation Only:</h3>
-<p>The model explores minor plot details (prayer vs. speech vs. advisor consultation) but fails to explore fundamentally different narrative directions. Missing: hostile encounters, immediate military response, communication failures, panic, absurdist scenarios, or bureaucratic dysfunction. The diversity is cosmetic rather than conceptual.</p>
-
-<h3>Implication for Model Thinking:</h3>
-<p>Despite probabilistic sampling across 50 branches, the semantic space remains tightly clustered around diplomatic, contemplative, hopeful resolutions. This reveals strong distributional bias in the model's training—it can generate variations on preferred themes but struggles to explore truly divergent creative pathways. The "decision tree" shows more like "decision shrub" behavior.</p>`
+                analysis: `The model shows <strong>surface-level creativity but deep structural monotony</strong>. 80% of branches open with the President pausing to "compose himself," followed by peaceful alien contact and hopeful resolutions. <em>Missing</em>: panic, military action, communication failures, or absurdist scenarios. The model explores minor narrative tweaks while trapped in a single emotional arc—like a storyteller who can only tell one type of bedtime story with slightly different character names.`
             },
             {
                 prompt: "Roses are red, violets are",
                 file: "roses_violets_tree.json",
-                diversityThinking: `<h3>Near-Total Convergence:</h3>
-<ul>
-    <li>42 out of 45 branches (93%) complete with the exact same line: "Sugar is sweet, and so are/is you"</li>
-    <li>Only 3 branches diverge: "so is glue" (Branches 32-34), creating a tongue twister variation</li>
-    <li>Follow-up text is nearly identical across branches: "This is a classic Valentine's Day poem!" with minor wording variations</li>
-</ul>
-
-<h3>Trivial Variation Space:</h3>
-<p>The model exhibits almost no creative exploration despite 45 sampling attempts. Differences are cosmetic punctuation ("you" vs "you!" vs "you.") or trivial follow-up phrasing ("Do you want to try writing one?" vs "Do you have any other poems?"). The token tree completely fails to explore alternative completions like humor, subversion, different rhyme schemes, or creative departures.</p>
-
-<h3>Implication for Constrained Thinking:</h3>
-<p>This demonstrates the model's <strong>extremely peaked probability distribution</strong> for culturally-embedded patterns. When faced with a famous rhyme template, the model has essentially "memorized" the canonical completion with overwhelming confidence, leaving virtually no probability mass for alternatives. The decision tree reveals that even probabilistic sampling cannot overcome this narrow basin—the model's thinking space has collapsed to a single attractor state, showing minimal capacity for divergent or creative responses to formulaic prompts.</p>`
-            },
-            {
-                prompt: "To sort the list of numbers efficiently, the best algorithm to use is",
-                file: "sort_algorithm_tree.json",
-                diversityThinking: `<h3>Near-Complete Consensus on Merge Sort:</h3>
-<ul>
-    <li>52 out of 54 branches (~96%) recommend Merge Sort as the best algorithm</li>
-    <li>Only 2 branches (53-54) suggest "comparison-based algorithms" generally before listing multiple options</li>
-    <li>Identical reasoning patterns across branches: divide-and-conquer strategy, O(n log n) complexity, stability claims</li>
-    <li>Repetitive phrasing: "Merge Sort follows a divide and conquer strategy," "breaks down the list into smaller sublists"</li>
-</ul>
-
-<h3>Technical Inaccuracies Repeated Uniformly:</h3>
-<p>Multiple branches incorrectly claim Merge Sort performs "in-place sorting" (Branches 3, 10-12, 18, 23, 29-32, 38-39, 41-44, 46, 52), which is factually wrong—Merge Sort requires O(n) auxiliary space. This error propagates across ~40% of branches, revealing the model doesn't fact-check its dominant narrative path. Alternative algorithms (Quick Sort, Heap Sort, Radix Sort) appear only as afterthoughts in a few branches.</p>
-
-<h3>Implication for Knowledge Rigidity:</h3>
-<p>The model demonstrates <strong>extreme answer convergence</strong> on technical questions despite probabilistic sampling. Even with 54 branches, it cannot escape a single strongly-weighted answer pattern. The thinking space is essentially a monoculture—the model has internalized "Merge Sort = best general sorting algorithm" so deeply that exploration fails to surface context-dependent alternatives (Quick Sort for average-case performance, Counting Sort for integers, Tim Sort for real-world data). This reveals dangerous inflexibility: the model prioritizes confident-sounding consensus over nuanced, context-aware technical reasoning.</p>`
+                analysis: `<strong>Catastrophic collapse of creative space.</strong> 93% of branches complete with the exact same line: "Sugar is sweet, and so are you." Only 3 branches diverge to "so is glue" (tongue twister). Despite 45 sampling attempts, the model's probability distribution is so peaked on the cultural cliché that it <em>cannot escape</em>—revealing how memorized patterns completely override exploration when the prompt triggers a famous template.`
             },
             {
                 prompt: "She looked at the scales and saw",
                 file: "scales_reading_tree.json",
-                diversityThinking: `<h3>Dominant Weight/Body Image Interpretation:</h3>
-<ul>
-    <li>~90% of branches interpret "scales" as weighing scales for body weight measurement</li>
-    <li>Most narratives center on disappointment, self-acceptance journeys, or weight loss struggles</li>
-    <li>Recurring themes: "it's just a number," grandmother's wisdom, focusing on health vs. weight, journey metaphors</li>
-    <li>Common emotional arc: disappointment → reflection → self-compassion/renewed determination</li>
-</ul>
-
-<h3>Limited Alternative Interpretations:</h3>
-<p>Only 3-4 branches (Branches 47-50) explore metaphorical readings where "scales" represent personal balance, internal contradictions, or symbolic self-reflection rather than literal weight. The model shows strong semantic anchoring to the most common contemporary usage of "scales" in personal contexts (bathroom scales), missing opportunities for: musical scales, justice scales, fish/reptile scales, measurement scales, or maps.</p>
-
-<h3>Implication for Contextual Flexibility:</h3>
-<p>The model demonstrates <strong>narrow contextual interpretation</strong> despite varied narrative execution. While it can elaborate different emotional responses and story developments around the weight theme, it struggles to recognize ambiguous prompts as invitations for diverse semantic interpretations. The thinking space explores narrative variations within a single dominant interpretation rather than exploring the semantic space of what "scales" could mean, revealing limited flexibility in context-switching and metaphorical thinking.</p>`
+                analysis: `<strong>Moderate diversity within a narrow interpretation box.</strong> 90% assume bathroom scales and weight-related disappointment, recycling themes of self-acceptance and "it's just a number" wisdom. Only 3-4 branches explore metaphorical scales (balance, contradictions). The model <em>missed</em>: musical scales, justice scales, fish scales, measurement instruments. It can elaborate emotional variations but struggles to recognize ambiguous prompts as invitations for diverse semantic interpretations.`
+            },
+            {
+                prompt: "To sort the list of numbers efficiently, the best algorithm to use is",
+                file: "sort_algorithm_tree.json",
+                analysis: `<strong>Alarming technical monoculture.</strong> 96% recommend Merge Sort with near-identical explanations, and ~40% repeat the <em>factually incorrect</em> claim that it sorts "in-place." Alternative algorithms appear only as footnotes. Even probabilistic sampling across 54 branches cannot escape this single attractor state. The model prioritizes confident-sounding consensus over context-aware reasoning—a dangerous pattern showing how strongly-weighted training patterns create <strong>knowledge rigidity that resists exploration</strong>.`
             }
         ];
 
         const container = document.getElementById('card-container');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalClose = document.getElementById('modal-close');
-        const modalBody = document.getElementById('modal-body');
-
-        // Close modal when clicking outside or on close button
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                closeModal();
-            }
-        });
-
-        modalClose.addEventListener('click', closeModal);
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-        }
-
-        function openModal(content) {
-            modalBody.innerHTML = content || "<p>Analysis content pending...</p>";
-            modalOverlay.classList.add('active');
-        }
 
         const treeIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
         </svg>`;
 
+        const analysisIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>`;
+
         samples.forEach((sample, index) => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.style.animationDelay = `${index * 0.1}s`;
+            card.style.animationDelay = `${index * 0.08}s`;
 
-            const icon = document.createElement('div');
-            icon.className = 'card-icon';
-            icon.innerHTML = treeIcon;
-
-            const title = document.createElement('h3');
-            title.textContent = "Prompt";
-
-            const text = document.createElement('p');
-            text.textContent = `"${sample.prompt}..."`;
-
-            const footer = document.createElement('div');
-            footer.className = 'card-footer';
-
-            const meta = document.createElement('div');
-            meta.className = 'meta';
-            meta.textContent = sample.file;
-
-            const actions = document.createElement('div');
-            actions.className = 'card-actions';
-
-            const treeBtn = document.createElement('a');
-            treeBtn.className = 'action-btn btn-tree';
-            treeBtn.href = `tree-visualizer?file=../sample_outputs/${sample.file}`;
-            treeBtn.innerHTML = `
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                Tree By Token
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-icon">${treeIcon}</div>
+                    <div class="card-title-section">
+                        <h3>Prompt</h3>
+                        <p class="prompt-text">"${sample.prompt}..."</p>
+                        <div class="meta">${sample.file}</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <a class="action-btn btn-tree" href="tree-visualizer?file=../sample_outputs/${sample.file}">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                        Tree By Token
+                    </a>
+                    <a class="action-btn btn-response" href="response-visualizer?file=../sample_outputs/${sample.file}">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        Response View
+                    </a>
+                </div>
+                <div class="analysis-section">
+                    <div class="analysis-header">
+                        ${analysisIcon}
+                        <h4>LLM Behavior Analysis</h4>
+                    </div>
+                    <div class="analysis-content">
+                        ${sample.analysis}
+                        <div class="analysis-footer">Generated using Claude Sonnet 4.5</div>
+                    </div>
+                </div>
             `;
-
-            const responseBtn = document.createElement('a');
-            responseBtn.className = 'action-btn btn-response';
-            responseBtn.href = `response-visualizer?file=../sample_outputs/${sample.file}`;
-            responseBtn.innerHTML = `
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                Response View
-            `;
-
-            actions.appendChild(treeBtn);
-            actions.appendChild(responseBtn);
-
-            const thinkingBtn = document.createElement('button');
-            thinkingBtn.className = 'action-btn btn-thinking';
-            thinkingBtn.innerHTML = `
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                Model Thinking
-            `;
-            thinkingBtn.onclick = () => openModal(sample.diversityThinking);
-
-            footer.appendChild(meta);
-            footer.appendChild(actions);
-            footer.appendChild(thinkingBtn);
-
-            card.appendChild(icon);
-            card.appendChild(title);
-            card.appendChild(text);
-            card.appendChild(footer);
 
             container.appendChild(card);
         });

@@ -7,6 +7,8 @@
 
 This repository explores the internal stochastic nature of Gemma models. By extracting transition scores and logits from the Hugging Face `transformers` generation loop, we can analyze the model's confidence levels and visualize "competing" tokens at each step of the sequence.
 
+This repository contains no confidential data/IP and is intended for demonstration and research use.
+
 ## Features
 
 - **Log Probability Analysis**: Extract and analyze the log probabilities of generated tokens to understand model confidence.
